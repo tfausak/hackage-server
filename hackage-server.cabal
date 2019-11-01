@@ -158,6 +158,7 @@ library lib-server
     Distribution.Client.TagsFile
     Distribution.Client.UserAddressesDb
 
+    CabalCompat.ReadP
     CabalCompat.Text
 
   -- misc internal modules

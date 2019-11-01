@@ -13,7 +13,7 @@ import Distribution.Server.Users.AuthToken
 import CabalCompat.Text
          ( Text(..) )
 import qualified Distribution.Server.Util.Parse as Parse
-import qualified Distribution.Compat.ReadP as Parse
+import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
 import qualified Data.Char as Char
 import qualified Data.Text as T

@@ -29,7 +29,7 @@ import Distribution.Package
 import CabalCompat.Text
          ( Text(..), simpleParse )
 import Distribution.ParseUtils ( parseMaybeQuoted )
-import qualified Distribution.Compat.ReadP as Parse
+import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
 import Text.PrettyPrint
          ( (<+>) )

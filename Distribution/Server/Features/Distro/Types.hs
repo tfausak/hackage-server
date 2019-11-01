@@ -23,7 +23,7 @@ import Control.Applicative ((<$>))
 
 import CabalCompat.Text (Text(..))
 
-import qualified Distribution.Compat.ReadP as Parse
+import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
 import qualified Data.Char as Char
 

@@ -36,7 +36,7 @@ import           Data.Either (isLeft)
 -- TODO: move somewhere else
 import Data.Time.Locale.Compat (defaultTimeLocale)
 -- import Text.ParserCombinators.ReadP (ReadP)
-import Distribution.Compat.ReadP as ReadP
+import CabalCompat.ReadP as ReadP
 #if MIN_VERSION_time(1,5,0)
 import Data.Time.Format (ParseTime, parseTimeM, readSTime)
 #else

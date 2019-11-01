@@ -38,7 +38,7 @@ import CabalCompat.Text
 import Distribution.Server.Util.ParseSpecVer
 import qualified Distribution.SPDX as SPDX
 import qualified Distribution.License as License
-import qualified Distribution.Compat.ReadP as Parse
+import qualified CabalCompat.ReadP as Parse
 
 import Control.Monad.Except
          ( ExceptT, runExceptT, MonadError, throwError )

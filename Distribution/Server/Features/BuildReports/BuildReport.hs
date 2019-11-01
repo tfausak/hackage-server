@@ -50,7 +50,7 @@ import Distribution.Server.Util.Merge
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
-import qualified Distribution.Compat.ReadP as Parse
+import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint.HughesPJ as Disp
          ( Doc, char, text, (<>) )
 import Text.PrettyPrint.HughesPJ

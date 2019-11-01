@@ -6,7 +6,7 @@ import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
 import qualified Distribution.ParseUtils   as Parse
-import qualified Distribution.Compat.ReadP as Parse
+import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
 import Distribution.Package
 import qualified Text.PrettyPrint as Disp
