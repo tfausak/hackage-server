@@ -39,7 +39,6 @@ import Distribution.System
 import Distribution.Compiler
          ( CompilerId )
 import qualified CabalCompat.Text as Text
-         ( Text(disp, parse), display )
 import Distribution.ParseUtils
          ( FieldDescr(..), ParseResult(..), Field(..)
          , simpleField, boolField, listField, readFields
@@ -282,17 +281,20 @@ parseFlag = do
     ('-':flag) -> return (mkFlagName flag, False)
     flag       -> return (mkFlagName flag, True)
 
-instance Text.Text InstallOutcome where
-  disp PlanningFailed  = Disp.text "PlanningFailed"
-  disp (DependencyFailed pkgid) = Disp.text "DependencyFailed" <+> Text.disp pkgid
-  disp DownloadFailed  = Disp.text "DownloadFailed"
-  disp UnpackFailed    = Disp.text "UnpackFailed"
-  disp SetupFailed     = Disp.text "SetupFailed"
-  disp ConfigureFailed = Disp.text "ConfigureFailed"
-  disp BuildFailed     = Disp.text "BuildFailed"
-  disp InstallFailed   = Disp.text "InstallFailed"
-  disp InstallOk       = Disp.text "InstallOk"
+instance Text.Pretty InstallOutcome where
+  pretty x = case x of
+    PlanningFailed -> Disp.text "PlanningFailed"
+    (DependencyFailed pkgid) -> Disp.text "DependencyFailed" <+> Text.disp pkgid
+    DownloadFailed -> Disp.text "DownloadFailed"
+    UnpackFailed -> Disp.text "UnpackFailed"
+    SetupFailed -> Disp.text "SetupFailed"
+    ConfigureFailed -> Disp.text "ConfigureFailed"
+    BuildFailed -> Disp.text "BuildFailed"
+    InstallFailed -> Disp.text "InstallFailed"
+    InstallOk -> Disp.text "InstallOk"
 
+instance Text.Text InstallOutcome where
+  disp = Text.pretty
   parse = do
     name <- Parse.munch1 Char.isAlphaNum
     case name of
@@ -309,10 +311,14 @@ instance Text.Text InstallOutcome where
       "InstallOk"        -> return InstallOk
       _                  -> Parse.pfail
 
+instance Text.Pretty Outcome where
+  pretty x = case x of
+    NotTried -> Disp.text "NotTried"
+    Failed -> Disp.text "Failed"
+    Ok -> Disp.text "Ok"
+
 instance Text.Text Outcome where
-  disp NotTried = Disp.text "NotTried"
-  disp Failed   = Disp.text "Failed"
-  disp Ok       = Disp.text "Ok"
+  disp = Text.pretty
   parse = do
     name <- Parse.munch1 Char.isAlpha
     case name of

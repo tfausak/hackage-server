@@ -293,12 +293,18 @@ instance MemSize RsFlags where
 instance MemSize Length where
     memSize _ = memSize0
 
+instance Pretty Day where
+  pretty  = PP.text . show
+
 instance Text Day where
-  disp  = PP.text . show
+  disp = pretty
   parse = readS_to_P (reads :: ReadS Day)
 
+instance Pretty UTCTime where
+  pretty  = PP.text . show
+
 instance Text UTCTime where
-  disp  = PP.text . show
+  disp = pretty
   parse = readS_to_P (reads :: ReadS UTCTime)
 
 -------------------

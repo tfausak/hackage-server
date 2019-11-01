@@ -13,7 +13,7 @@ import Distribution.Server.Framework.MemSize
 import Distribution.Server.Util.Nonce
 
 import CabalCompat.Text
-         ( Text(..) )
+         ( Text(..), Pretty(..) )
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
 import qualified Data.Char as Char
@@ -72,8 +72,11 @@ parseAuthToken t
 renderAuthToken :: AuthToken -> T.Text
 renderAuthToken (AuthToken bss) = T.decodeUtf8 $ BS16.encode $ BSS.fromShort bss
 
+instance Pretty AuthToken where
+  pretty tok = Disp.text . T.unpack . renderAuthToken $ tok
+
 instance Text AuthToken where
-    disp tok = Disp.text . T.unpack . renderAuthToken $ tok
+    disp = pretty
     parse =
         Parse.munch1 Char.isHexDigit >>= \x ->
         case parseAuthToken (T.pack x) of

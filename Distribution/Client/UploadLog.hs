@@ -27,7 +27,7 @@ import Distribution.Server.Users.Types
 import Distribution.Package
          ( PackageId, PackageName, packageName, PackageIdentifier(..))
 import CabalCompat.Text
-         ( Text(..), simpleParse )
+         ( Text(..), Pretty(..), simpleParse )
 import Distribution.ParseUtils ( parseMaybeQuoted )
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
@@ -50,10 +50,13 @@ import Data.List
 data Entry = Entry UTCTime UserName PackageIdentifier
   deriving (Eq, Ord, Show)
 
-instance Text Entry where
-  disp (Entry time user pkgid) =
+instance Pretty Entry where
+  pretty (Entry time user pkgid) =
         Disp.text (formatTime defaultTimeLocale "%c" time)
     <+> disp user <+> disp pkgid
+
+instance Text Entry where
+  disp = pretty
   parse = do
     time <- readPTime' "%c"
     Parse.skipSpaces

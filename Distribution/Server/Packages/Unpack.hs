@@ -34,7 +34,7 @@ import Distribution.PackageDescription.Check
 import Distribution.Parsec.Common
          ( showPError, showPWarning )
 import CabalCompat.Text
-         ( Text(..), display, simpleParse )
+         ( Text(..), Pretty(..), display, simpleParse )
 import Distribution.Server.Util.ParseSpecVer
 import qualified Distribution.SPDX as SPDX
 import qualified Distribution.License as License
@@ -106,11 +106,13 @@ data TaggedPackageId = TaggedPackageId {
         taggedPkgVersion :: Data.Version.Version
     }
 
-instance Text TaggedPackageId where
-    disp (TaggedPackageId n v)
-        | v == Data.Version.Version [] [] = disp n
-        | otherwise = disp n Disp.<> Disp.char '-' Disp.<> disp v
+instance Pretty TaggedPackageId where
+  pretty (TaggedPackageId n v)
+    | v == Data.Version.Version [] [] = pretty n
+    | otherwise = pretty n Disp.<> Disp.char '-' Disp.<> disp v
 
+instance Text TaggedPackageId where
+    disp = pretty
     parse = do
         n <- parse
         v <- (Parse.char '-' >> parse) Parse.<++ return (Data.Version.Version [] [])

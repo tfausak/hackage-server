@@ -27,15 +27,23 @@ import Control.Monad.Reader (ask, asks)
 import Control.DeepSeq
 
 newtype TagList = TagList [Tag] deriving (Show, Typeable)
+
+instance Pretty TagList where
+  pretty (TagList tags) = Disp.hsep . Disp.punctuate Disp.comma $ map pretty tags
+
 instance Text TagList where
-    disp (TagList tags) = Disp.hsep . Disp.punctuate Disp.comma $ map disp tags
+    disp = pretty
     parse = fmap TagList $ Parse.skipSpaces >> Parse.parseCommaList parse
 
 -- A tag is a string describing a package; presently the preferred word-separation
 -- character is the dash.
 newtype Tag = Tag String deriving (Show, Typeable, Ord, Eq, NFData, MemSize)
+
+instance Pretty Tag where
+  pretty (Tag tag) = Disp.text tag
+
 instance Text Tag where
-    disp (Tag tag) = Disp.text tag
+    disp = pretty
     parse = do
         -- adding 'many1 $ do' here would allow multiword tags.
         -- spaces aren't very aesthetic in URIs, though.

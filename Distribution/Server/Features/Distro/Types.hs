@@ -21,7 +21,7 @@ import Distribution.Package
 
 import Control.Applicative ((<$>))
 
-import CabalCompat.Text (Text(..))
+import CabalCompat.Text (Text(..), Pretty(..))
 
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
@@ -35,8 +35,11 @@ import Data.Typeable
 newtype DistroName = DistroName String
  deriving (Eq, Ord, Read, Show, Typeable, MemSize)
 
+instance Pretty DistroName where
+  pretty (DistroName name) = Disp.text name
+
 instance Text DistroName where
-  disp (DistroName name) = Disp.text name
+  disp = pretty
   parse = DistroName <$> Parse.munch1 (\c -> Char.isAlphaNum c || c `elem` "-_()[]{}=$,;")
 
 
