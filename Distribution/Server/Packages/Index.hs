@@ -25,7 +25,7 @@ import Distribution.Server.Users.Types
          ( UserId(..), UserName(..) )
 import Distribution.Server.Util.ParseSpecVer
 
-import Distribution.Text
+import CabalCompat.Text
          ( display )
 import Distribution.Types.PackageName
 import Distribution.Package

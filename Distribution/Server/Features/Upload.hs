@@ -34,7 +34,7 @@ import Data.ByteString.Lazy (ByteString)
 import Distribution.Package
 import Distribution.PackageDescription (GenericPackageDescription)
 import Distribution.Version (Version, alterVersion)
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import qualified Distribution.Server.Util.GZip as GZip
 
 

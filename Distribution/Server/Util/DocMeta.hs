@@ -16,7 +16,7 @@ import Data.TarIndex (TarIndex)
 import qualified Data.TarIndex as TarIndex
 import qualified Data.Text as Text
 import Distribution.Package
-import Distribution.Text (display, simpleParse)
+import CabalCompat.Text (display, simpleParse)
 import Distribution.Version (Version)
 import System.FilePath ((</>))
 

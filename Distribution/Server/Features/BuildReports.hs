@@ -22,7 +22,7 @@ import Distribution.Server.Packages.Types
 
 import qualified Distribution.Server.Framework.BlobStorage as BlobStorage
 
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Package
 import Distribution.Version (nullVersion)
 

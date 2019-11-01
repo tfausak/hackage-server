@@ -9,7 +9,7 @@ import Distribution.Server.Features.Upload
 
 import Distribution.Package
          ( PackageIdentifier(..), packageName, PackageId )
-import Distribution.Text
+import CabalCompat.Text
          ( display, simpleParse )
 
 import Distribution.Version ( Version, nullVersion )

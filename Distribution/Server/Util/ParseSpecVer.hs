@@ -17,7 +17,7 @@ import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as BC8
 import qualified Data.ByteString.Lazy  as BSL
 import qualified Data.ByteString.Lazy.Char8 as BC8L
-import           Distribution.Text
+import           CabalCompat.Text
 import           Distribution.Pretty ( prettyShow )
 import           Distribution.Parsec.Common ( PWarning, PError )
 import           Distribution.Version

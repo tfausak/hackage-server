@@ -13,7 +13,7 @@ import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
 import Distribution.Server.Packages.Types
 import Distribution.Simple.Utils (comparing, equating)
 import Distribution.ModuleName (toFilePath)
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 
 import Text.XHtml.Strict hiding ( p, name )
 import qualified Text.XHtml.Strict as XHtml ( name )

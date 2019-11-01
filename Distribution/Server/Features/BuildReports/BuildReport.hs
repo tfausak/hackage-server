@@ -38,7 +38,7 @@ import Distribution.System
          ( OS, Arch )
 import Distribution.Compiler
          ( CompilerId )
-import qualified Distribution.Text as Text
+import qualified CabalCompat.Text as Text
          ( Text(disp, parse), display )
 import Distribution.ParseUtils
          ( FieldDescr(..), ParseResult(..), Field(..)

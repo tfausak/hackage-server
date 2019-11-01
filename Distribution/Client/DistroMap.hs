@@ -19,7 +19,7 @@ import Distribution.Package
          ( PackageName )
 import Distribution.Version
          ( Version )
-import Distribution.Text
+import CabalCompat.Text
          ( display, simpleParse )
 
 import Text.CSV

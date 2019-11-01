@@ -21,7 +21,7 @@ import qualified Codec.Archive.Tar.Entry as Tar
          ( Entry(..), entryPath )
 
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
          ( simpleParse )
 
 import Data.ByteString.Lazy (ByteString)

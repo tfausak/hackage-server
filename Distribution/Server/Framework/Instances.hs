@@ -17,7 +17,7 @@ module Distribution.Server.Framework.Instances (
 
 import Distribution.Server.Prelude
 
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Server.Framework.MemSize
 
 import Distribution.Package  (PackageIdentifier(..))

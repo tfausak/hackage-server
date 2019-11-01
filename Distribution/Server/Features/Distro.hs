@@ -16,7 +16,7 @@ import Distribution.Server.Features.Distro.Types
 import Distribution.Server.Features.Distro.Backup (dumpBackup, restoreBackup)
 import Distribution.Server.Util.Parse (unpackUTF8)
 
-import Distribution.Text (display, simpleParse)
+import CabalCompat.Text (display, simpleParse)
 import Distribution.Package
 
 import Data.List (intercalate)

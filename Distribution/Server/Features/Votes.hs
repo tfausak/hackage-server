@@ -18,7 +18,7 @@ import Distribution.Server.Features.Users
 import Distribution.Server.Users.Types (UserId(..))
 
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
 
 import Data.Aeson
 import qualified Data.Map as Map

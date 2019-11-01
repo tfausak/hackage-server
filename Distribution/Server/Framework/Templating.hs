@@ -51,7 +51,7 @@ import qualified Data.Aeson as JSON
 
 import Distribution.Package (PackageName, PackageIdentifier)
 import Distribution.Version (Version)
-import Distribution.Text    (display)
+import CabalCompat.Text (display)
 
 import Control.Monad (when)
 import Control.Monad.Trans (MonadIO, liftIO)

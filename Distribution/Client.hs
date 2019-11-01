@@ -40,7 +40,7 @@ import Distribution.Server.Util.Parse (unpackUTF8)
 import Distribution.Package
 import Distribution.Verbosity
 import Distribution.Simple.Utils
-import Distribution.Text
+import CabalCompat.Text
 
 import Data.Version
 import Data.List

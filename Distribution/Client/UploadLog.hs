@@ -26,7 +26,7 @@ import Distribution.Server.Users.Types
 
 import Distribution.Package
          ( PackageId, PackageName, packageName, PackageIdentifier(..))
-import Distribution.Text
+import CabalCompat.Text
          ( Text(..), simpleParse )
 import Distribution.ParseUtils ( parseMaybeQuoted )
 import qualified Distribution.Compat.ReadP as Parse

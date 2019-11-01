@@ -9,7 +9,7 @@ import Distribution.Server.Prelude
 
 import Distribution.Package (PackageName)
 import Distribution.Version (Version)
-import Distribution.Text    (display, simpleParse)
+import CabalCompat.Text (display, simpleParse)
 
 import Data.List (intercalate)
 import Data.Attoparsec.ByteString.Char8 (Parser)

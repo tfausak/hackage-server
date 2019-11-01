@@ -11,7 +11,7 @@ import Distribution.Server.Features.Tags.State
 import Distribution.Server.Framework.BackupRestore
 
 import Distribution.Package
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 
 import Text.CSV (CSV, Record)
 import qualified Data.Map as Map

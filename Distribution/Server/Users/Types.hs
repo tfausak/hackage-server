@@ -10,7 +10,7 @@ import Distribution.Server.Framework.AuthTypes
 import Distribution.Server.Framework.MemSize
 import Distribution.Server.Users.AuthToken
 
-import Distribution.Text
+import CabalCompat.Text
          ( Text(..) )
 import qualified Distribution.Server.Util.Parse as Parse
 import qualified Distribution.Compat.ReadP as Parse

@@ -35,7 +35,7 @@ import Control.Monad.Reader (ask)
 import Control.Monad.State (get, put, modify)
 import Data.SafeCopy (base, deriveSafeCopy)
 
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Data.Time (UTCTime(..), getCurrentTime, addDays)
 import Text.CSV (CSV, Record)
 import Network.Mail.Mime

@@ -35,7 +35,7 @@ import Distribution.Server.Features.Security.Migration
 import Distribution.Server.Util.ServeTarball
 import Distribution.Server.Pages.Template (hackagePage)
 
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Package
 import Distribution.Version
 

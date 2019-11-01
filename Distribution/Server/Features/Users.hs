@@ -35,7 +35,7 @@ import Data.Aeson (toJSON)
 import Data.Aeson.TH
 import qualified Data.Text as T
 
-import Distribution.Text (display, simpleParse)
+import CabalCompat.Text (display, simpleParse)
 
 import Happstack.Server.Cookie (addCookie, mkCookie, CookieLife(Session))
 

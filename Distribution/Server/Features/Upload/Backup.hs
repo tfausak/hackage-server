@@ -15,7 +15,7 @@ import Distribution.Server.Framework.BackupRestore
 import Distribution.Server.Framework.BackupDump
 
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
 import Data.Version
 import Text.CSV (CSV, Record)
 

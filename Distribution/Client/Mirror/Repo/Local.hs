@@ -11,7 +11,7 @@ import System.Directory
 import System.FilePath
 
 -- Cabal
-import Distribution.Text
+import CabalCompat.Text
 
 -- hackage
 import Distribution.Client hiding (downloadIndex)

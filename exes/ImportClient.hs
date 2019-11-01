@@ -25,7 +25,7 @@ import Distribution.Package
          ( PackageId, PackageName, packageName, packageVersion, PackageIdentifier )
 import Distribution.Version
          ( Version, versionTags )
-import Distribution.Text
+import CabalCompat.Text
          ( display, simpleParse )
 import Distribution.Simple.Utils
          ( topHandler, die, {-warn, debug,-} wrapText )

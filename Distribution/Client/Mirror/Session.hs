@@ -75,7 +75,7 @@ import qualified Data.Set             as Set
 
 -- Cabal
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Verbosity
 import Distribution.Simple.Utils (wrapText)
 

@@ -17,7 +17,7 @@ module Distribution.Client.TagsFile (
 
 import Distribution.Package
          ( PackageName, PackageId, packageName )
-import Distribution.Text
+import CabalCompat.Text
          ( simpleParse )
 import Distribution.Simple.Utils
          ( comparing, equating )

@@ -28,7 +28,7 @@ import Distribution.Types.UnqualComponentName
 import Distribution.Types.CondTree
 import Distribution.Types.ForeignLib
 import Distribution.Package
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Distribution.Version
 import Distribution.Compiler (CompilerFlavor)
 import Distribution.FieldGrammar (prettyFieldGrammar)
@@ -37,7 +37,7 @@ import Distribution.PackageDescription.Parsec (parseGenericPackageDescription, r
 import Distribution.PackageDescription.FieldGrammar (sourceRepoFieldGrammar)
 import Distribution.PackageDescription.Check
 import Distribution.Parsec.Common (showPWarning, showPError, PWarning (..))
-import Distribution.Text (Text(..))
+import CabalCompat.Text (Text(..))
 import Distribution.Simple.LocalBuildInfo (showComponentName)
 import Text.PrettyPrint as Doc
          (nest, (<+>), colon, text, ($+$), Doc, hsep, punctuate)

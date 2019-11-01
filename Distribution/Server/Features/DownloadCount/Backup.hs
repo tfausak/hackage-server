@@ -9,7 +9,7 @@ import Distribution.Server.Framework.BackupRestore
 import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Features.DownloadCount.State
 import Distribution.Server.Util.CountingMap
-import Distribution.Text (display, simpleParse)
+import CabalCompat.Text (display, simpleParse)
 import Data.Version
 import Text.CSV (CSV)
 

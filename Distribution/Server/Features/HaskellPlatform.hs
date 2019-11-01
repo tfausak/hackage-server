@@ -12,7 +12,7 @@ import Distribution.Server.Features.HaskellPlatform.State
 
 import Distribution.Package
 import Distribution.Version
-import Distribution.Text
+import CabalCompat.Text
 
 import Data.Function
 import qualified Data.Map as Map

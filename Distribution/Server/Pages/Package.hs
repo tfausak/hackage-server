@@ -40,7 +40,7 @@ import Distribution.Package
 import Distribution.PackageDescription as P
 import Distribution.Version
 import Distribution.Types.CondTree
-import Distribution.Text        (display)
+import CabalCompat.Text (display)
 import Text.XHtml.Strict hiding (p, name, title, content)
 import qualified Text.XHtml.Strict
 

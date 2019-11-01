@@ -66,7 +66,7 @@ import qualified Data.Map as Map
 import System.FilePath ((</>), takeDirectory, splitDirectories)
 import System.Directory (doesFileExist, doesDirectoryExist)
 import Text.CSV hiding (csv)
-import Distribution.Text
+import CabalCompat.Text
 import Data.Map (Map)
 import Data.Version (Version)
 import qualified Data.Version as Version

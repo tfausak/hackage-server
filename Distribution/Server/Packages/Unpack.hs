@@ -33,7 +33,7 @@ import Distribution.PackageDescription.Check
          , checkPackageContent )
 import Distribution.Parsec.Common
          ( showPError, showPWarning )
-import Distribution.Text
+import CabalCompat.Text
          ( Text(..), display, simpleParse )
 import Distribution.Server.Util.ParseSpecVer
 import qualified Distribution.SPDX as SPDX

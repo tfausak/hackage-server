@@ -18,7 +18,7 @@ import Distribution.Package
 import Distribution.PackageDescription
          ( GenericPackageDescription(packageDescription)
          , PackageDescription(synopsis)  )
-import Distribution.Text
+import CabalCompat.Text
          ( display )
 
 import qualified Text.XHtml.Strict as XHtml

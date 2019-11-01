@@ -24,7 +24,7 @@ import Data.TarIndex
 import qualified Data.TarIndex as TarIndex
 import Distribution.Server.Util.ServeTarball (constructTarIndex)
 import Distribution.Package (packageId)
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 
 import qualified Data.Map as Map
 import Data.Aeson (toJSON)

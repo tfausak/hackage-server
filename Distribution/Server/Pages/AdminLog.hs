@@ -10,7 +10,7 @@ import Distribution.Server.Users.Types (UserId)
 import Distribution.Server.Pages.Template
          ( hackagePage)
 
-import Distribution.Text
+import CabalCompat.Text
          ( display )
 
 import qualified Text.XHtml.Strict as XHtml

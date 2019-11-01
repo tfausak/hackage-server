@@ -21,7 +21,7 @@ import NLP.Snowball
 
 import Distribution.Package
 import Distribution.PackageDescription
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Data.Text (unpack)
 
 

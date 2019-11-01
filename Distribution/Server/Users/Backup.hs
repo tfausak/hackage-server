@@ -18,7 +18,7 @@ import qualified Distribution.Server.Framework.Auth as Auth
 
 import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Framework.BackupRestore
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Data.Version
 import Text.CSV (CSV, Record)
 import qualified Data.Map as M

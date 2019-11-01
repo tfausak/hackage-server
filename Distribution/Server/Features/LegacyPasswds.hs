@@ -34,7 +34,7 @@ import Data.SafeCopy (base, deriveSafeCopy)
 import Control.Monad.Reader (ask)
 import Control.Monad.State (get, put)
 
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Data.Version
 import Text.CSV (CSV, Record)
 import Network.URI (URI(..), uriToString)

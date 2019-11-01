@@ -10,7 +10,7 @@ import Distribution.Server.Pages.Template (hackagePage)
 import qualified Distribution.Server.Users.Types as Users
 import Distribution.Server.Users.Group (GroupDescription(..))
 import qualified Distribution.Server.Users.Group as Group
-import Distribution.Text
+import CabalCompat.Text
 import Data.Maybe
 
 renderGroupName :: GroupDescription -> Maybe String -> Html

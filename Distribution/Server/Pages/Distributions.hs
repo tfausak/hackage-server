@@ -11,7 +11,7 @@ module Distribution.Server.Pages.Distributions
 import Distribution.Server.Pages.Template (hackagePage)
 import Distribution.Server.Features.Distro.Distributions
 import Distribution.Server.Users.Types
-import Distribution.Text
+import CabalCompat.Text
 
 import Distribution.Package
 import qualified Happstack.Server.SURI as SURI

@@ -20,7 +20,7 @@ import qualified Data.ByteString.Lazy as BS
 
 -- Cabal
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
 
 -- hackage
 import Distribution.Client (PkgIndexInfo(..), (<//>))

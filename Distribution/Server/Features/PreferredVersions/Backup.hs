@@ -8,7 +8,7 @@ import Distribution.Server.Framework.BackupRestore
 import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Features.PreferredVersions.State
 import Data.Version (Version(..))
-import Distribution.Text (Text, display, simpleParse)
+import CabalCompat.Text (Text, display, simpleParse)
 import Distribution.Package (PackageName)
 import Distribution.Version (VersionRange)
 import qualified Data.Map as Map

@@ -54,7 +54,7 @@ import           Distribution.Server.Users.Users                    (lookupUserI
 
 -- Cabal
 import           Distribution.Package
-import           Distribution.Text                                  (display)
+import           CabalCompat.Text                                   (display)
 import           Distribution.Version                               (nullVersion)
 
 -- | The core feature, responsible for the main package index and all access

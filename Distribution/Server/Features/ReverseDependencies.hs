@@ -31,7 +31,7 @@ import Distribution.Server.Packages.Preferred
 import qualified Distribution.Server.Framework.Cache as Cache
 
 import Distribution.Package
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Distribution.Version
 
 import Data.List (mapAccumL, sortBy)

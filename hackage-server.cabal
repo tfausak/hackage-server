@@ -158,6 +158,8 @@ library lib-server
     Distribution.Client.TagsFile
     Distribution.Client.UserAddressesDb
 
+    CabalCompat.Text
+
   -- misc internal modules
   other-modules:
     Data.IntTrie

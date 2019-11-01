@@ -37,7 +37,7 @@ import Distribution.Package (
   , packageName
   , packageVersion
   )
-import Distribution.Text (simpleParse, display)
+import CabalCompat.Text (simpleParse, display)
 import Distribution.Simple.Utils (writeFileAtomic)
 
 import Distribution.Server.Framework.Instances ()

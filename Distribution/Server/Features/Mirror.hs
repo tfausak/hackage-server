@@ -34,7 +34,7 @@ import Data.Time.Locale.Compat (defaultTimeLocale)
 import qualified Distribution.Server.Util.GZip as GZip
 
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
 
 
 data MirrorFeature = MirrorFeature {

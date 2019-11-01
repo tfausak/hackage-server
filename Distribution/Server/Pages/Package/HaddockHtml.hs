@@ -6,7 +6,7 @@ import Distribution.Server.Prelude
 import Text.XHtml.Strict        hiding (p)
 import Network.URI              (escapeURIString, isUnreserved)
 import Distribution.ModuleName
-import Distribution.Text        (simpleParse)
+import CabalCompat.Text (simpleParse)
 import Documentation.Haddock.Types
 
 -- C.f. haddock-api's "Haddock.Backends.Xhtml.DocMarkup"

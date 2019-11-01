@@ -17,7 +17,7 @@ import Control.Applicative ((<$>), (<*>))
 
 import Data.SafeCopy (SafeCopy(..), safeGet, safePut, contain)
 
-import Distribution.Text (Text(..), display)
+import CabalCompat.Text (Text(..), display)
 
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize

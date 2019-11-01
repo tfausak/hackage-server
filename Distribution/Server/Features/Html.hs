@@ -58,7 +58,7 @@ import Distribution.Simple.Utils ( cabalVersion )
 
 import Distribution.Package
 import Distribution.Version
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Distribution.PackageDescription
 
 import Data.Char (toLower)

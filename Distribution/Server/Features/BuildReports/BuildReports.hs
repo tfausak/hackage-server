@@ -22,7 +22,7 @@ import Distribution.Server.Features.BuildReports.BuildReport
          (BuildReport(..), BuildReport_v0)
 
 import Distribution.Package (PackageId)
-import Distribution.Text (Text(..), display)
+import CabalCompat.Text (Text(..), display)
 
 import Distribution.Server.Framework.MemSize
 import Distribution.Server.Framework.Instances

@@ -17,7 +17,7 @@ import qualified Distribution.Server.Users.UserIdSet as UserIdSet
 import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Framework.BackupRestore
 
-import Distribution.Text
+import CabalCompat.Text
 import Text.CSV (CSV, Record)
 
 import Data.Version

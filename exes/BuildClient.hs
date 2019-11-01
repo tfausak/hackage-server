@@ -12,7 +12,7 @@ import Distribution.Client.Cron (cron, rethrowSignalsAsExceptions,
 import qualified Distribution.Client.Index as Index
 
 import Distribution.Package
-import Distribution.Text
+import CabalCompat.Text
 import qualified Text.PrettyPrint          as Disp
 import Distribution.Verbosity
 import Distribution.Simple.Utils hiding (intercalate)

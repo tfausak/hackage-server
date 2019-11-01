@@ -12,7 +12,7 @@ where
 import Distribution.Server.Framework.MemSize
 import Distribution.Server.Util.Nonce
 
-import Distribution.Text
+import CabalCompat.Text
          ( Text(..) )
 import qualified Distribution.Compat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp

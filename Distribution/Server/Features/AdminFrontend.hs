@@ -15,7 +15,7 @@ import Distribution.Server.Features.LegacyPasswds
 
 import Distribution.Server.Users.Types
 import qualified Distribution.Server.Users.Users as Users
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Simple.Utils (lowercase)
 
 import Data.List

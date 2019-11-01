@@ -11,7 +11,7 @@ import Distribution.Server.Packages.Reverse
 import Distribution.Server.Packages.Preferred
 
 import Distribution.Package
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Distribution.Version
 
 import qualified Data.Map as Map

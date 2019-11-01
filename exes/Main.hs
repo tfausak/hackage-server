@@ -11,7 +11,7 @@ import Distribution.Server.Framework.BackupDump (dumpServerBackup, BackupType(..
 import qualified Distribution.Server.Framework.BlobStorage as BlobStorage
 import Distribution.Server.Util.SigTerm
 
-import Distribution.Text
+import CabalCompat.Text
          ( display )
 import Distribution.Simple.Utils
          ( topHandler, dieNoVerbosity )

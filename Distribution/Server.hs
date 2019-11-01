@@ -41,7 +41,7 @@ import qualified Distribution.Server.Users.Types as Users
 import qualified Distribution.Server.Users.Users as Users
 import qualified Distribution.Server.Users.Group as Group
 
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Verbosity as Verbosity
 
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist)

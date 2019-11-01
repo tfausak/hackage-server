@@ -21,7 +21,7 @@ import qualified Data.Set as Set
 -- Cabal
 import Distribution.Package
 import Distribution.Simple.Utils hiding (warn)
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Verbosity
 
 -- hackage

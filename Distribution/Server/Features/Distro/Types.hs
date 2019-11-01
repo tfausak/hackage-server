@@ -21,7 +21,7 @@ import Distribution.Package
 
 import Control.Applicative ((<$>))
 
-import Distribution.Text (Text(..))
+import CabalCompat.Text (Text(..))
 
 import qualified Distribution.Compat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp

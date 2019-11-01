@@ -23,7 +23,7 @@ import Data.TarIndex (TarIndex)
 import qualified Codec.Archive.Tar       as Tar
 import qualified Codec.Archive.Tar.Check as Tar
 
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Package
 import Distribution.Version (nullVersion)
 

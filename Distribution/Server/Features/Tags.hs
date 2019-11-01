@@ -23,7 +23,7 @@ import Distribution.Server.Packages.PackageIndex (PackageIndex)
 import Distribution.Server.Packages.Types
 import Distribution.Server.Packages.Render (categorySplit)
 
-import Distribution.Text
+import CabalCompat.Text
 import Distribution.Package
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Configuration

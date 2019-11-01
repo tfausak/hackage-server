@@ -8,7 +8,7 @@ import Text.XHtml.Strict
 import qualified Data.Set as Set
 import Distribution.Server.Features.Tags
 import Distribution.Server.Features.Core
-import Distribution.Text (display)
+import CabalCompat.Text (display)
 import Data.List (intersperse, intercalate)
 import Data.Set (Set)
 import Data.Time.Locale.Compat  (defaultTimeLocale)
