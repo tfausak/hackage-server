@@ -21,7 +21,7 @@ import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
 import Distribution.Server.Framework.MemSize
 
-import Distribution.Package  (PackageIdentifier(..))
+import CabalCompat.Package  (PackageIdentifier(..))
 import Distribution.Compiler (CompilerFlavor(..), CompilerId(..))
 import Distribution.System   (OS(..), Arch(..))
 import Distribution.Types.GenericPackageDescription (FlagName, mkFlagName, unFlagName)

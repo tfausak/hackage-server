@@ -11,7 +11,7 @@ import Distribution.Server.Features.BuildReports.BuildReports (BuildReportId)
 import Distribution.Server.Features.BuildReports.BuildReport (BuildReport(..), InstallOutcome(..), Outcome(..))
 import Distribution.Server.Features.Documentation
 
-import Distribution.Package
+import CabalCompat.Package
 
 import Text.XHtml.Strict
 

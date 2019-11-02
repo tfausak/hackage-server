@@ -19,7 +19,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import NLP.Snowball
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription
 import CabalCompat.Text (display)
 import Data.Text (unpack)

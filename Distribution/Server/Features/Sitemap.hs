@@ -13,7 +13,7 @@ import Distribution.Server.Features.Core
 import Distribution.Server.Features.Documentation
 import Distribution.Server.Features.Tags
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (display)
 import Distribution.Server.Packages.Types
 

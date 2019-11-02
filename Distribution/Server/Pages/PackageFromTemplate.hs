@@ -14,7 +14,7 @@ import Distribution.Server.Users.Types (userStatus, userName, isActiveAccount)
 import Data.TarIndex (TarIndex)
 import Distribution.Server.Features.Distro.Types
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription as P
 import Distribution.Version
 import CabalCompat.Text (display)

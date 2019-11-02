@@ -17,7 +17,7 @@ import Distribution.Server.Features.Core
 import Distribution.Server.Features.Users
 import Distribution.Server.Users.Types (UserId(..))
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 
 import Data.Aeson

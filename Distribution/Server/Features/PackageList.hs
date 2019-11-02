@@ -26,7 +26,7 @@ import Distribution.Server.Packages.Types
 -- [reverse index disabled] import Distribution.Server.Packages.Reverse
 import Distribution.Server.Users.Types
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Configuration
 

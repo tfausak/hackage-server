@@ -56,7 +56,7 @@ import Distribution.Server.Util.DocMeta (loadTarDocMeta)
 import Distribution.Server.Util.ServeTarball (loadTarEntry)
 import Distribution.Simple.Utils ( cabalVersion )
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version
 import CabalCompat.Text (display)
 import Distribution.PackageDescription

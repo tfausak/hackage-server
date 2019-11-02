@@ -7,7 +7,7 @@ module Distribution.Server.Features.BuildReports.State where
 import Distribution.Server.Features.BuildReports.BuildReports (BuildReportId, BuildLog, BuildReport, BuildReports)
 import qualified Distribution.Server.Features.BuildReports.BuildReports as BuildReports
 
-import Distribution.Package
+import CabalCompat.Package
 
 import Control.Monad.Reader
 import qualified Control.Monad.State as State

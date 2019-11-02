@@ -24,7 +24,7 @@ import qualified Codec.Archive.Tar       as Tar
 import qualified Codec.Archive.Tar.Check as Tar
 
 import CabalCompat.Text
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version (nullVersion)
 
 import qualified Data.ByteString.Lazy as BSL

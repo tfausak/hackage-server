@@ -33,7 +33,7 @@ import Data.Time.Format (formatTime)
 import Data.Time.Locale.Compat (defaultTimeLocale)
 import qualified Distribution.Server.Util.GZip as GZip
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 
 

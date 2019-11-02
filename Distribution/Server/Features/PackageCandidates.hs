@@ -36,7 +36,7 @@ import Distribution.Server.Util.ServeTarball
 import Distribution.Server.Pages.Template (hackagePage)
 
 import CabalCompat.Text
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version
 
 import qualified Cheapskate      as Markdown (markdown, Options(..))

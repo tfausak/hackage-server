@@ -74,7 +74,7 @@ import qualified Data.ByteString.Lazy as BS
 import qualified Data.Set             as Set
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 import Distribution.Verbosity
 import Distribution.Simple.Utils (wrapText)

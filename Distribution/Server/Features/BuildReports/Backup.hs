@@ -16,7 +16,7 @@ import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Framework.BackupRestore
 import Distribution.Server.Util.Parse (unpackUTF8, packUTF8)
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (display, simpleParse)
 import Distribution.Version
 

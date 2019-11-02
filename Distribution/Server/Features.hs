@@ -55,7 +55,7 @@ import Distribution.Server.Features.Crash
 
 import Control.Applicative ((<$>))
 import Distribution.Server.Packages.PackageIndex (allPackages)
-import Distribution.Package (packageId)
+import CabalCompat.Package (packageId)
 
 -- TODO:
 -- * PackageServe: serving from tarballs (most of the work is setting it up on import)

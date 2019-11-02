@@ -29,7 +29,7 @@ import qualified Data.Vector as V
 import qualified Data.Vector.Unboxed as V.U
 import qualified Data.Version as Ver
 
-import Distribution.Package  (PackageIdentifier(..), PackageName, unPackageName)
+import CabalCompat.Package  (PackageIdentifier(..), PackageName, unPackageName)
 import Distribution.PackageDescription (FlagName, unFlagName)
 import Distribution.Version  (Version, VersionRange, VersionRangeF(..), cataVersionRange)
 import Distribution.System   (Arch(..), OS(..))

@@ -5,7 +5,7 @@ module Distribution.Server.Features.Votes.State where
 
 import Distribution.Server.Framework.MemSize
 
-import Distribution.Package (PackageName)
+import CabalCompat.Package (PackageName)
 import Distribution.Server.Users.Types (UserId)
 import Distribution.Server.Users.UserIdSet (UserIdSet)
 import qualified Distribution.Server.Users.UserIdSet as UserIdSet

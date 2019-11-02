@@ -49,7 +49,7 @@ import qualified Text.XHtml.Strict as XHtml
 import Network.URI (URI)
 import qualified Data.Aeson as JSON
 
-import Distribution.Package (PackageName, PackageIdentifier)
+import CabalCompat.Package (PackageName, PackageIdentifier)
 import Distribution.Version (Version)
 import CabalCompat.Text (display)
 

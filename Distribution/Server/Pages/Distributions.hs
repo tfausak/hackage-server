@@ -13,7 +13,7 @@ import Distribution.Server.Features.Distro.Distributions
 import Distribution.Server.Users.Types
 import CabalCompat.Text
 
-import Distribution.Package
+import CabalCompat.Package
 import qualified Happstack.Server.SURI as SURI
 
 import System.FilePath.Posix

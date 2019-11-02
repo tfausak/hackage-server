@@ -36,7 +36,7 @@ import qualified Data.TarIndex as Tar
 
 import qualified Distribution.ModuleName as Module
 import Distribution.ModuleName (ModuleName)
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription as P
 import Distribution.Version
 import Distribution.Types.CondTree

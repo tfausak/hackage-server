@@ -15,7 +15,7 @@ module Distribution.Client.TagsFile (
     collectDeprecated,
   ) where
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageName, PackageId, packageName )
 import CabalCompat.Text
          ( simpleParse )

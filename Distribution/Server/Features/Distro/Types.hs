@@ -17,7 +17,7 @@ import qualified Data.Map as Map
 import qualified Data.Set as Set
 
 import qualified Distribution.Version as Version
-import Distribution.Package
+import CabalCompat.Package
 
 import Control.Applicative ((<$>))
 

@@ -13,7 +13,7 @@ import Distribution.Server.Packages.Types (PkgInfo(..))
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier(..), Package(..) )
 
 import Data.Typeable (Typeable)

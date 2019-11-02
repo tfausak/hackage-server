@@ -2,7 +2,7 @@
 
 module Distribution.Server.Features.Distro.State where
 
-import Distribution.Package (PackageName)
+import CabalCompat.Package (PackageName)
 
 import qualified Distribution.Server.Features.Distro.Distributions as Dist
 import Distribution.Server.Features.Distro.Distributions

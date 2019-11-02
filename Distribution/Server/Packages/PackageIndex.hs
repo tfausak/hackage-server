@@ -60,7 +60,7 @@ import Data.List (groupBy, find, isInfixOf)
 import Data.SafeCopy
 
 import Distribution.Types.PackageName
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier(..)
          , Package(..), packageName, packageVersion )
 import Distribution.Types.Dependency

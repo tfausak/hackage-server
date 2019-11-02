@@ -10,7 +10,7 @@ import System.Exit (exitSuccess)
 import System.Console.GetOpt
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Verbosity
 import Distribution.Simple.Utils hiding (warn)
 

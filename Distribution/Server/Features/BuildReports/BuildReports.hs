@@ -21,7 +21,7 @@ import qualified Distribution.Server.Framework.BlobStorage as BlobStorage
 import Distribution.Server.Features.BuildReports.BuildReport
          (BuildReport(..), BuildReport_v0)
 
-import Distribution.Package (PackageId)
+import CabalCompat.Package (PackageId)
 import CabalCompat.Text (Text(..), Pretty(..), Parsec(..), display)
 
 import Distribution.Server.Framework.MemSize

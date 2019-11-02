@@ -7,7 +7,7 @@ import Distribution.Server.Framework.MemSize
 
 import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
-import Distribution.Package
+import CabalCompat.Package
 import qualified Text.PrettyPrint as Disp
 
 import Data.Acid (Query, Update, makeAcidic)

@@ -53,7 +53,7 @@ import           Distribution.Server.Users.Users                    (lookupUserI
                                                                      userIdToName)
 
 -- Cabal
-import           Distribution.Package
+import           CabalCompat.Package
 import           CabalCompat.Text                                   (display)
 import           Distribution.Version                               (nullVersion)
 

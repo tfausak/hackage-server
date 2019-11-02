@@ -27,7 +27,7 @@ import System.FilePath.Posix ((</>), (<.>))
 -- Cabal
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Configuration
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 import Distribution.Pretty (prettyShow)
 import Distribution.Version

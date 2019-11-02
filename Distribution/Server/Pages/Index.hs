@@ -5,7 +5,7 @@ module Distribution.Server.Pages.Index (packageIndex, toPackageNames) where
 import Distribution.Server.Pages.Template       ( hackagePage )
 import Distribution.Server.Pages.Util           ( packageType )
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Configuration
                                 ( flattenPackageDescription )

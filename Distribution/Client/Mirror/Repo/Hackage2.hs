@@ -19,7 +19,7 @@ import System.FilePath
 import qualified Data.ByteString.Lazy as BS
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 
 -- hackage

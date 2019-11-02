@@ -20,7 +20,7 @@ import qualified Codec.Archive.Tar       as Tar
 import qualified Codec.Archive.Tar.Entry as Tar
          ( Entry(..), entryPath )
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
          ( simpleParse )
 

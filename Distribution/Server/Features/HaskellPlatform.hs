@@ -10,7 +10,7 @@ import Distribution.Server.Framework.BackupRestore
 
 import Distribution.Server.Features.HaskellPlatform.State
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version
 import CabalCompat.Text
 

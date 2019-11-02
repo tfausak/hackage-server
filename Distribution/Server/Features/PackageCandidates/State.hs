@@ -9,7 +9,7 @@ import Distribution.Server.Framework.MemSize
 import Distribution.Server.Packages.Types
 
 import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
-import Distribution.Package
+import CabalCompat.Package
 
 import Data.Acid     (Query, Update, makeAcidic)
 import Data.SafeCopy (Migrate(..), deriveSafeCopy, base, extension)

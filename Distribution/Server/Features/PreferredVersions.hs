@@ -24,7 +24,7 @@ import Distribution.Server.Features.Tags
 import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
 import Distribution.Server.Packages.Types
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version
 import CabalCompat.Text
 

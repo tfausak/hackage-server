@@ -14,7 +14,7 @@ import Data.Typeable
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version
 
 import Control.Monad.Reader (ask, asks)

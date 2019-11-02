@@ -19,7 +19,7 @@ import System.FilePath
 import qualified Data.Set as Set
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Simple.Utils hiding (warn)
 import CabalCompat.Text
 import Distribution.Verbosity

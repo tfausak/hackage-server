@@ -17,7 +17,7 @@ import qualified Codec.Archive.Tar       as Tar
 import qualified Codec.Archive.Tar.Entry as Tar
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 
 -- hackage
 import Distribution.Client hiding (provideAuthInfo)

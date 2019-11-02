@@ -31,7 +31,7 @@ import Data.Serialize.Get (runGetLazy)
 import Data.Serialize.Put (runPutLazy)
 
 import Distribution.Version (Version)
-import Distribution.Package (
+import CabalCompat.Package (
     PackageId
   , PackageName
   , packageName

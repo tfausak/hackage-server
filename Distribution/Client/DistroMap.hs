@@ -15,7 +15,7 @@ module Distribution.Client.DistroMap (
     toCSV,
   ) where
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageName )
 import Distribution.Version
          ( Version )

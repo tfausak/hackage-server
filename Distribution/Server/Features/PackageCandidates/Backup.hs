@@ -6,7 +6,7 @@ import Distribution.Server.Features.PackageCandidates.State
 import Distribution.Server.Features.PackageCandidates.Types
 import Distribution.Server.Features.Core.Backup as CoreBackup
 import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
-import Distribution.Package (PackageId, packageId)
+import CabalCompat.Package (PackageId, packageId)
 import Text.CSV (CSV)
 import Data.Version (Version(Version), showVersion)
 import Data.Map (Map)

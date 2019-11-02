@@ -15,7 +15,7 @@ import Distribution.Server.Features.Core
 import Distribution.Server.Packages.Types
 import Distribution.Server.Features.Upload
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (display)
 import Distribution.Parsec.Common ( showPError )
 import Distribution.Server.Util.ParseSpecVer

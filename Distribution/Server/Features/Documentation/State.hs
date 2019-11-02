@@ -2,7 +2,7 @@
 
 module Distribution.Server.Features.Documentation.State where
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Server.Framework.BlobStorage (BlobId)
 import Data.TarIndex () -- For SafeCopy instances
 import Distribution.Server.Framework.MemSize

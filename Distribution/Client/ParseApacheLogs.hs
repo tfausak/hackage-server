@@ -7,7 +7,7 @@ module Distribution.Client.ParseApacheLogs
 -- TODO: We assume the Apache log files are ASCII, not Unicode.
 import Distribution.Server.Prelude
 
-import Distribution.Package (PackageName)
+import CabalCompat.Package (PackageName)
 import Distribution.Version (Version)
 import CabalCompat.Text (display, simpleParse)
 

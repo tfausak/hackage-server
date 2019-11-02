@@ -21,7 +21,7 @@ import Distribution.Version
          ( nullVersion, mkVersion )
 import Distribution.Types.PackageName
          ( mkPackageName, unPackageName )
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier, packageVersion, packageName, PackageName )
 import Distribution.PackageDescription
          ( GenericPackageDescription(..), PackageDescription(..)

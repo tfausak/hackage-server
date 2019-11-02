@@ -30,7 +30,7 @@ module Distribution.Server.Features.BuildReports.BuildReport (
     BuildReport_v0,
   ) where
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier(..) )
 import Distribution.Types.GenericPackageDescription
          ( FlagName, mkFlagName, unFlagName )

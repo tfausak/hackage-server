@@ -24,7 +24,7 @@ import Control.Monad
 import System.Directory
 
 -- Cabal
-import Distribution.Package (PackageId)
+import CabalCompat.Package (PackageId)
 import Distribution.Verbosity
 
 -- hackage

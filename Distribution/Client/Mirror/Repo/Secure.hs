@@ -23,7 +23,7 @@ import System.IO
 import qualified Data.ByteString.Lazy as BS.L
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Verbosity
 
 -- hackage

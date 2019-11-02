@@ -24,7 +24,7 @@ import Distribution.Server.Prelude hiding (read)
 import Distribution.Server.Users.Types
          ( UserName )
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageId, PackageName, packageName, PackageIdentifier(..))
 import CabalCompat.Text
          ( Text(..), Pretty(..), Parsec(..), simpleParse )

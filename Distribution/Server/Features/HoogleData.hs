@@ -18,7 +18,7 @@ import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
 
 import Data.TarIndex as TarIndex
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 
 import qualified Codec.Archive.Tar as Tar

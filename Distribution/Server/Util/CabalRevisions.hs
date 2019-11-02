@@ -27,7 +27,7 @@ import Distribution.Types.LegacyExeDependency
 import Distribution.Types.UnqualComponentName
 import Distribution.Types.CondTree
 import Distribution.Types.ForeignLib
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (Pretty, display)
 import Distribution.Version
 import Distribution.Compiler (CompilerFlavor)

@@ -28,7 +28,7 @@ import Distribution.Server.Util.ParseSpecVer
 import CabalCompat.Text
          ( display )
 import Distribution.Types.PackageName
-import Distribution.Package
+import CabalCompat.Package
          ( Package, PackageId, packageName, packageVersion )
 import Distribution.Version (mkVersion)
 import Data.Time.Clock

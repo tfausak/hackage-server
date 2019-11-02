@@ -15,7 +15,7 @@ import Distribution.Server.Features.Security.Layout
 import Distribution.Server.Packages.Types
 
 -- Cabal
-import Distribution.Package
+import CabalCompat.Package
 
 -- Hackage security
 import qualified Hackage.Security.Server      as Sec

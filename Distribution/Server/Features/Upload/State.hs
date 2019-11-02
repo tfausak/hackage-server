@@ -5,7 +5,7 @@ module Distribution.Server.Features.Upload.State where
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
-import Distribution.Package
+import CabalCompat.Package
 import qualified Distribution.Server.Users.Group as Group
 import Distribution.Server.Users.Types (UserId)
 import Distribution.Server.Users.Group (UserIdSet)

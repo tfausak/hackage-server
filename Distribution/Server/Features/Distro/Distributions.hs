@@ -32,7 +32,7 @@ import Distribution.Server.Features.Distro.Types
 import qualified Distribution.Server.Users.Group as Group
 import Distribution.Server.Users.Group (UserIdSet)
 
-import Distribution.Package
+import CabalCompat.Package
 
 import Data.List (foldl')
 import Data.Maybe (fromJust, fromMaybe)

@@ -23,7 +23,7 @@ import Distribution.Server.Packages.Types
 import Data.TarIndex
 import qualified Data.TarIndex as TarIndex
 import Distribution.Server.Util.ServeTarball (constructTarIndex)
-import Distribution.Package (packageId)
+import CabalCompat.Package (packageId)
 import CabalCompat.Text (display)
 
 import qualified Data.Map as Map

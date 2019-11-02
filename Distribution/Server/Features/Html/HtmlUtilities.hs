@@ -15,7 +15,7 @@ import Data.Time.Locale.Compat  (defaultTimeLocale)
 import Data.Time.Format         (formatTime)
 import Distribution.Server.Features.PackageList
 import Distribution.Server.Pages.Util (packageType)
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Server.Features.Users
 
 data HtmlUtilities = HtmlUtilities {

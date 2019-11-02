@@ -13,7 +13,7 @@ import Distribution.Server.Users.Users (Users)
 import Distribution.Server.Pages.Template
          ( hackagePageWithHead )
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier, packageName, packageVersion )
 import Distribution.PackageDescription
          ( GenericPackageDescription(packageDescription)

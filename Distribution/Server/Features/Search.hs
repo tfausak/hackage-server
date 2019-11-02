@@ -24,7 +24,7 @@ import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
 
 import Distribution.Server.Packages.Types
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription.Configuration (flattenPackageDescription)
 
 import qualified Data.Text as T

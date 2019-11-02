@@ -30,7 +30,7 @@ import Distribution.Server.Packages.Reverse
 import Distribution.Server.Packages.Preferred
 import qualified Distribution.Server.Framework.Cache as Cache
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (display)
 import Distribution.Version
 

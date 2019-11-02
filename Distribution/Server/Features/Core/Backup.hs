@@ -23,7 +23,7 @@ import Distribution.Server.Users.Types (UserName(..))
 import Distribution.Server.Features.Security.SHA256
 import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription.Parsec (parseGenericPackageDescription, runParseResult)
 import Distribution.Parsec.Common (showPError)
 import CabalCompat.Text

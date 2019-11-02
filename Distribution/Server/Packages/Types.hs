@@ -27,7 +27,7 @@ import Distribution.Server.Features.Security.MD5
 import Distribution.Server.Features.Security.SHA256
 import qualified Distribution.Server.Framework.BlobStorage as BlobStorage
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier(..), Package(..) )
 import Distribution.PackageDescription
          ( GenericPackageDescription(..))

@@ -21,7 +21,7 @@ import qualified Distribution.Client.Index as PackageIndex (read)
 import Distribution.Server.Users.Types (UserName(..))
 import Distribution.Server.Util.Parse (packUTF8, unpackUTF8)
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageId, PackageName, packageName, packageVersion, PackageIdentifier )
 import Distribution.Version
          ( Version, versionTags )

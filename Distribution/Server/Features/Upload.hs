@@ -31,7 +31,7 @@ import Data.Time.Clock (getCurrentTime)
 import Data.Function (fix)
 import Data.ByteString.Lazy (ByteString)
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription (GenericPackageDescription)
 import Distribution.Version (Version, alterVersion)
 import CabalCompat.Text (display)

@@ -24,7 +24,7 @@ import Distribution.Server.Packages.Types
 import Distribution.Server.Packages.Render (categorySplit)
 
 import CabalCompat.Text
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Configuration
 import Distribution.License (License(..), licenseFromSPDX)

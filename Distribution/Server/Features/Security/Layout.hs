@@ -18,7 +18,7 @@ import Distribution.Server.Framework.ServerEnv
 import Distribution.Server.Framework.Resource
 
 -- Cabal
-import Distribution.Package (PackageIdentifier)
+import CabalCompat.Package (PackageIdentifier)
 
 -- hackage-security
 import qualified Hackage.Security.Server    as Sec

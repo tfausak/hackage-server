@@ -9,7 +9,7 @@ import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Features.PreferredVersions.State
 import Data.Version (Version(..))
 import CabalCompat.Text (Parsec, display, simpleParse)
-import Distribution.Package (PackageName)
+import CabalCompat.Package (PackageName)
 import Distribution.Version (VersionRange)
 import qualified Data.Map as Map
 import Control.Applicative ((<$>))

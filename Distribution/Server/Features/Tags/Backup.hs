@@ -10,7 +10,7 @@ module Distribution.Server.Features.Tags.Backup (
 import Distribution.Server.Features.Tags.State
 import Distribution.Server.Framework.BackupRestore
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (display)
 
 import Text.CSV (CSV, Record)

@@ -11,7 +11,7 @@ import Distribution.Client.Cron (cron, rethrowSignalsAsExceptions,
                                  Signal(..), ReceivedSignal(..))
 import qualified Distribution.Client.Index as Index
 
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text
 import qualified Text.PrettyPrint          as Disp
 import Distribution.Verbosity

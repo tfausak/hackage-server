@@ -7,7 +7,7 @@ module Distribution.Server.Features.LegacyRedirects (
 import Distribution.Server.Framework
 import Distribution.Server.Features.Upload
 
-import Distribution.Package
+import CabalCompat.Package
          ( PackageIdentifier(..), packageName, PackageId )
 import CabalCompat.Text
          ( display, simpleParse )

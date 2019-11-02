@@ -15,7 +15,7 @@ import qualified Data.ByteString.Lazy
 import Data.TarIndex (TarIndex)
 import qualified Data.TarIndex as TarIndex
 import qualified Data.Text as Text
-import Distribution.Package
+import CabalCompat.Package
 import CabalCompat.Text (display, simpleParse)
 import Distribution.Version (Version)
 import System.FilePath ((</>))

@@ -5,7 +5,7 @@ module Distribution.Server.Features.PreferredVersions.State where
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Version
 
 import Data.Acid  (Query, Update, makeAcidic)

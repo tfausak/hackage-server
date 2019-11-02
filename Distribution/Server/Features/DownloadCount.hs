@@ -32,7 +32,7 @@ import Distribution.Server.Features.DownloadCount.Backup
 import Distribution.Server.Features.Core
 import Distribution.Server.Features.Users
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Server.Util.CountingMap (cmFromCSV)
 
 import Data.Time.Calendar (Day, addDays)

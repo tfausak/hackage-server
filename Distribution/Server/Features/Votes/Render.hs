@@ -6,7 +6,7 @@ module Distribution.Server.Features.Votes.Render
   , alreadyVotedPage
   ) where
 
-import Distribution.Package
+import CabalCompat.Package
 import Distribution.Server.Pages.Template
 import qualified Distribution.Server.Framework.ResponseContentTypes as Resource
 

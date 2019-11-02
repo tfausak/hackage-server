@@ -21,7 +21,7 @@ import qualified Data.Map    as Map
 import qualified Data.Vector as Vec
 
 -- Cabal
-import Distribution.Package (PackageId)
+import CabalCompat.Package (PackageId)
 
 -- hackage
 import Distribution.Server.Features.Core.State
