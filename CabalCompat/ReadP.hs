@@ -1,5 +1,6 @@
 module CabalCompat.ReadP
   ( Distribution.Compat.ReadP.ReadP
+  , Distribution.Parsec.Class.CabalParsing
   , Distribution.Compat.CharParsing.anyChar
   , Distribution.Compat.CharParsing.char
   , Distribution.Compat.CharParsing.count

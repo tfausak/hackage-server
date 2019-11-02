@@ -274,7 +274,7 @@ dispFlag :: (FlagName, Bool) -> Disp.Doc
 dispFlag (fn, True)  =                       Disp.text (unFlagName fn)
 dispFlag (fn, False) = Disp.char '-' Disp.<> Disp.text (unFlagName fn)
 
-parseFlag :: Parse.ReadP r (FlagName, Bool)
+parseFlag :: Parse.CabalParsing m => m (FlagName, Bool)
 parseFlag = do
   name <- Parse.munch1 (\c -> Char.isAlphaNum c || c == '_' || c == '-')
   case name of
