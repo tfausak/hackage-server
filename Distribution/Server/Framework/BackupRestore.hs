@@ -176,7 +176,7 @@ timeFormatSpec :: String
 timeFormatSpec = "%Y-%m-%d %H:%M:%S%Q %z"
 
 -- Parse a string, throw an error if it's bad
-parseText :: forall a m. (Text a, Monad m, Typeable a) => String -> String -> m a
+parseText :: forall a m. (Parsec a, Monad m, Typeable a) => String -> String -> m a
 parseText label text = case simpleParse text of
     Nothing -> fail $ "Unable to 'simpleParse' " ++ label ++ " "
                    ++ show text

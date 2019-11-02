@@ -8,7 +8,7 @@ import Distribution.Server.Framework.BackupRestore
 import Distribution.Server.Framework.BackupDump
 import Distribution.Server.Features.PreferredVersions.State
 import Data.Version (Version(..))
-import CabalCompat.Text (Text, display, simpleParse)
+import CabalCompat.Text (Parsec, display, simpleParse)
 import Distribution.Package (PackageName)
 import Distribution.Version (VersionRange)
 import qualified Data.Map as Map
@@ -67,7 +67,7 @@ importDeprecatedCSV st pkg [ _version
   return st { deprecatedMap = Map.insert pkg deprecatedFor (deprecatedMap st) }
 importDeprecatedCSV _ _ _ = fail "Failed to read deprecated.csv"
 
-match :: Text a => String -> Record -> Maybe [a]
+match :: Parsec a => String -> Record -> Maybe [a]
 match header (header' : xs) = guard (header == header') >> mapM simpleParse xs
 match _ _ = Nothing
 

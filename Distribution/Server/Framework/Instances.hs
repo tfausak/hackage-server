@@ -442,7 +442,7 @@ instance Migrate VersionRange where
 
 
 textGet_v0 :: Parsec a => Serialize.Get a
-textGet_v0 = (fromJust . simpleParsec) <$> Serialize.get
+textGet_v0 = (fromJust . simpleParse) <$> Serialize.get
 
 textPut_v0 :: Pretty a => a -> Serialize.Put
 textPut_v0 = Serialize.put . prettyShow

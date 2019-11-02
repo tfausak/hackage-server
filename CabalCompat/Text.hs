@@ -4,10 +4,12 @@ module CabalCompat.Text
   , Distribution.Parsec.Class.Parsec(parsec)
   , Distribution.Text.display
   , Distribution.Pretty.prettyShow
-  , Distribution.Text.simpleParse
-  , Distribution.Parsec.Class.simpleParsec
+  , simpleParse
   ) where
 
 import qualified Distribution.Parsec.Class
 import qualified Distribution.Pretty
 import qualified Distribution.Text
+
+simpleParse :: Distribution.Parsec.Class.Parsec a => String -> Maybe a
+simpleParse = Distribution.Parsec.Class.simpleParsec

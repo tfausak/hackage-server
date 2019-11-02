@@ -17,7 +17,7 @@ import Control.Applicative ((<$>), (<*>))
 
 import Data.SafeCopy (SafeCopy(..), safeGet, safePut, contain)
 
-import CabalCompat.Text (Text(..), display)
+import CabalCompat.Text (Text(..), Parsec(..), display)
 
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
@@ -54,7 +54,7 @@ class CountingMap k a | a -> k where
   cmToCSV        :: a -> CSV
   cmInsertRecord :: Monad m => Record -> a -> m (a, Int)
 
-instance (Ord k, Typeable k, Text k) => CountingMap k (SimpleCountingMap k) where
+instance (Ord k, Typeable k, Text k, Parsec k) => CountingMap k (SimpleCountingMap k) where
   cmEmpty = SCM (NCM 0 Map.empty)
 
   cmTotal (SCM (NCM total _)) = total
@@ -81,7 +81,7 @@ instance (Ord k, Typeable k, Text k) => CountingMap k (SimpleCountingMap k) wher
   cmInsertRecord _ _ =
     fail "cmInsertRecord: Invalid record"
 
-instance (Typeable k, Text k, Ord k, Eq l, CountingMap l a) => CountingMap (k, l) (NestedCountingMap k a) where
+instance (Typeable k, Text k, Parsec k, Ord k, Eq l, CountingMap l a) => CountingMap (k, l) (NestedCountingMap k a) where
   cmEmpty = NCM 0 Map.empty
 
   cmTotal (NCM total _m) = total
