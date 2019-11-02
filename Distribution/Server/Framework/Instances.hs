@@ -21,7 +21,7 @@ import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
 import Distribution.Server.Framework.MemSize
 
-import CabalCompat.Package  (PackageIdentifier(..))
+import CabalCompat.Package  (PackageIdentifier(..), newPackageIdentifier, simpleParsePackageIdentifier)
 import Distribution.Compiler (CompilerFlavor(..), CompilerId(..))
 import Distribution.System   (OS(..), Arch(..))
 import Distribution.Types.GenericPackageDescription (FlagName, mkFlagName, unFlagName)
@@ -268,7 +268,7 @@ instance SafeCopy FlagName where
     getCopy = contain $ mkFlagName <$> safeGet
 
 instance FromReqURI PackageIdentifier where
-  fromReqURI = simpleParse
+  fromReqURI = fmap (\ (n, v, _) -> newPackageIdentifier n v) . simpleParsePackageIdentifier
 
 instance FromReqURI PackageName where
   fromReqURI = simpleParse
