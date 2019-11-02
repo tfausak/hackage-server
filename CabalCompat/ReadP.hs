@@ -2,15 +2,18 @@ module CabalCompat.ReadP
   ( Distribution.Parsec.Class.CabalParsing
   , Distribution.Compat.CharParsing.anyChar
   , Distribution.Compat.CharParsing.char
+  , Distribution.Compat.CharParsing.choice
   , Distribution.Compat.CharParsing.count
   , int
   , Distribution.Compat.CharParsing.many
   , Distribution.Compat.CharParsing.munch
   , Distribution.Compat.CharParsing.munch1
+  , Distribution.Compat.CharParsing.option
   , parseCommaList
   , parseMaybeQuoted
   , pfail
   , readPTime'
+  , Distribution.Compat.ReadP.readP_to_S
   , Distribution.Compat.CharParsing.satisfy
   , Distribution.Compat.CharParsing.sepBy1
   , skipSpaces
@@ -21,6 +24,7 @@ import qualified Control.Monad
 import qualified Data.Char
 import qualified Data.Time
 import qualified Distribution.Compat.CharParsing
+import qualified Distribution.Compat.ReadP
 import qualified Distribution.Parsec.Class
 
 int :: Distribution.Parsec.Class.CabalParsing m => m Int

@@ -18,11 +18,11 @@ import qualified Codec.Archive.Tar.Entry as Tar
 import qualified Codec.Archive.Tar.Check as Tar
 
 import Distribution.Version
-         ( nullVersion, mkVersion )
+         ( mkVersion )
 import Distribution.Types.PackageName
          ( mkPackageName, unPackageName )
 import CabalCompat.Package
-         ( PackageIdentifier, packageVersion, packageName, PackageName )
+         ( PackageIdentifier, packageVersion, packageName, newPackageIdentifier, simpleParsePackageIdentifier )
 import Distribution.PackageDescription
          ( GenericPackageDescription(..), PackageDescription(..)
          , licenseRaw, specVersion )
@@ -34,11 +34,10 @@ import Distribution.PackageDescription.Check
 import Distribution.Parsec.Common
          ( showPError, showPWarning )
 import CabalCompat.Text
-         ( Text(..), Pretty(..), Parsec(..), display, simpleParse )
+         ( display )
 import Distribution.Server.Util.ParseSpecVer
 import qualified Distribution.SPDX as SPDX
 import qualified Distribution.License as License
-import qualified CabalCompat.ReadP as Parse
 
 import Control.Monad.Except
          ( ExceptT, runExceptT, MonadError, throwError )
@@ -59,7 +58,6 @@ import Data.Time
          ( UTCTime(..), fromGregorian, addUTCTime )
 import Data.Time.Clock.POSIX
          ( posixSecondsToUTCTime )
-import qualified Data.Version
 import qualified Distribution.Server.Util.GZip as GZip
 import System.FilePath
          ( (</>), (<.>), splitDirectories, splitExtension, normalise )
@@ -68,7 +66,6 @@ import qualified System.FilePath.Windows
 import qualified System.FilePath.Posix
          ( takeFileName, takeDirectory, addTrailingPathSeparator
          , dropTrailingPathSeparator )
-import qualified Text.PrettyPrint as Disp
 import Text.Printf
          ( printf )
 import Distribution.Server.Framework.Instances ()
@@ -102,26 +99,6 @@ unpackPackageRaw tarGzFile contents =
   where
     noTime = UTCTime (fromGregorian 1970 1 1) 0
 
-data TaggedPackageId = TaggedPackageId {
-        _taggedPkgName   :: PackageName,
-        taggedPkgVersion :: Data.Version.Version
-    }
-
-instance Pretty TaggedPackageId where
-  pretty (TaggedPackageId n v)
-    | v == Data.Version.Version [] [] = pretty n
-    | otherwise = pretty n Disp.<> Disp.char '-' Disp.<> disp v
-
-instance Parsec TaggedPackageId where
-  parsec = do
-    n <- parsec
-    v <- (Parse.char '-' >> parsec) Parse.<++ return (Data.Version.Version [] [])
-    return (TaggedPackageId n v)
-
-instance Text TaggedPackageId where
-    disp = pretty
-    parse = parsec
-
 tarPackageChecks :: Bool -> UTCTime -> FilePath -> ByteString
                  -> UploadMonad (PackageIdentifier, TarIndex)
 tarPackageChecks lax now tarGzFile contents = do
@@ -131,22 +108,19 @@ tarPackageChecks lax now tarGzFile contents = do
   unless (ext == ".tar.gz") $
     throwError $ tarGzFile ++ " is not a gzipped tar file, it must have the .tar.gz extension"
 
-  let versionTags (Data.Version.Version _ ts) = ts
-
-  pkgid <- case (simpleParse pkgidStr, simpleParse pkgidStr) of
-    (Just pkgid, Just tagged_pkgid)
-      | (== nullVersion) . packageVersion $ pkgid
+  pkgid <- case simpleParsePackageIdentifier pkgidStr of
+    Just (n, bs, ts)
+      | null bs
       -> throwError $ "Invalid package id " ++ quote pkgidStr
                    ++ ". It must include the package version number, and not just "
                    ++ "the package name, e.g. 'foo-1.0'."
 
-      | display pkgid == pkgidStr -> return (pkgid :: PackageIdentifier)
-
-      -- NB: we have to use 'TaggedPackageId' here, because the 'PackageId'
-      -- parser will drop tags.
-      | not . null . versionTags . taggedPkgVersion $ tagged_pkgid
+      | not (null ts)
       -> throwError $ "Hackage no longer accepts packages with version tags: "
-                   ++ intercalate ", " (versionTags (taggedPkgVersion tagged_pkgid))
+                   ++ intercalate ", " ts
+
+      | otherwise
+      -> pure (newPackageIdentifier n bs)
 
     _ -> throwError $ "Invalid package id " ++ quote pkgidStr
                    ++ ". The tarball must use the name of the package."
