@@ -127,9 +127,8 @@ doPackageImport (PartialIndex packages updatelog) entry = case entry of
       _ -> Nothing
 
 parsePackageId :: String -> Restore PackageId
-parsePackageId pkgStr = case simpleParse pkgStr of
-  Nothing    -> fail $ "Package directory " ++ show pkgStr ++ " isn't a valid package id"
-  Just pkgId -> return pkgId
+parsePackageId = parsePackageIdentifier $ \ pkgStr ->
+  "Package directory " ++ show pkgStr ++ " isn't a valid package id"
 
 importCabalMetadata :: [String] -> CSV -> Restore [(Int, UploadInfo)]
 importCabalMetadata _fp (_versionStr:_headers:body) =
@@ -447,9 +446,16 @@ importTarIndexEntries = fmap Seq.fromList . mapM fromRecord . drop 1
     fromRecord x = fail $ "Error index entries list: " ++ show x
 
 parsePkgid :: String -> Restore PackageIdentifier
-parsePkgid strPkgid = case simpleParsePackageIdentifier strPkgid of
-  Nothing -> fail
-    $ "Unable to 'simpleParse' pkgid "
-    ++ show strPkgid
-    ++ " as type PackageIdentifier"
-  Just (n, v, _) -> pure $ newPackageIdentifier n v
+parsePkgid = parsePackageIdentifier $ \ strPkgid ->
+  "Unable to 'simpleParse' pkgid "
+  ++ show strPkgid
+  ++ " as type PackageIdentifier"
+
+parsePackageIdentifier
+  :: (String -> String)
+  -> String
+  -> Restore PackageIdentifier
+parsePackageIdentifier makeErrorMessage input =
+  case simpleParsePackageIdentifier input of
+    Nothing -> fail $ makeErrorMessage input
+    Just (name, version, _) -> pure $ newPackageIdentifier name version
