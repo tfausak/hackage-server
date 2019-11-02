@@ -28,7 +28,7 @@ import Distribution.Types.UnqualComponentName
 import Distribution.Types.CondTree
 import Distribution.Types.ForeignLib
 import Distribution.Package
-import CabalCompat.Text (display)
+import CabalCompat.Text (Pretty, display)
 import Distribution.Version
 import Distribution.Compiler (CompilerFlavor)
 import Distribution.FieldGrammar (prettyFieldGrammar)
@@ -405,7 +405,7 @@ checkCondTree checkElem (componentName, condNodeA)
       checkMaybe "Cannot add or remove the 'else' part in conditionals"
                  checkCondNode thenPartA thenPartB
 
-checkDependencies :: forall d. (Text d, IsDependency d) => ComponentName -> Check [d]
+checkDependencies :: forall d. (Pretty d, IsDependency d) => ComponentName -> Check [d]
 checkDependencies componentName ds1 ds2 = do
     forM_ removed $ \dep -> do
         fail (unwords [ "Cannot remove existing", depKind, "on"
@@ -667,7 +667,7 @@ changesOkSet what render old new = do
 
 
 -- | Single-quote-wrapping 'display'
-display'' :: Text a => a -> String
+display'' :: Pretty a => a -> String
 display'' x = "'" ++ display x ++ "'"
 
 checkSame :: Eq a => String -> Check a

@@ -58,7 +58,7 @@ import System.IO.Error
 import System.FilePath
 import System.Directory
 import qualified System.FilePath.Posix as Posix
-
+import Distribution.Server.Framework.Instances ()
 
 -------------------------
 -- Command line handling

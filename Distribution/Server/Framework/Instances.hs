@@ -320,12 +320,18 @@ instance Text UTCTime where
   disp = pretty
   parse = parsec
 
+instance Pretty Version.Version where
+  pretty = disp
+
 instance Parsec Version.Version where
   parsec = do
     let parseNat = fmap read $ Parse.munch1 Char.isDigit
     branch <- Parse.sepBy1 parseNat $ Parse.char '.'
     _tags <- Parse.many $ Parse.char '-' >> Parse.munch1 Char.isAlphaNum
     pure $ Version.makeVersion branch
+
+instance Pretty CompilerId where
+  pretty = disp
 
 -------------------
 -- Arbitrary instances
@@ -445,7 +451,7 @@ textGet_v0 :: Parsec a => Serialize.Get a
 textGet_v0 = (fromJust . simpleParse) <$> Serialize.get
 
 textPut_v0 :: Pretty a => a -> Serialize.Put
-textPut_v0 = Serialize.put . prettyShow
+textPut_v0 = Serialize.put . display
 
 ---------------------------------------------------------------------
 
