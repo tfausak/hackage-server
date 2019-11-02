@@ -426,7 +426,7 @@ importTarIndexEntries = fmap Seq.fromList . mapM fromRecord . drop 1
   where
     fromRecord :: Record -> Restore TarIndexEntry
     fromRecord ["cabal", strPkgid, strRevno, strTime, strUid, username] = do
-       pkgid    <- parseText    "pkgid"     strPkgid
+       pkgid    <- parsePkgid strPkgid
        revno    <- parseRead    "revno"     strRevno
        utcTime  <- parseUTCTime "time"      strTime
        uid      <- parseText    "uid"       strUid
@@ -439,9 +439,17 @@ importTarIndexEntries = fmap Seq.fromList . mapM fromRecord . drop 1
        return $ ExtraEntry extrapath (BSC.pack extracontent) utcTime
 
     fromRecord ["metadata", strPkgid, strRevno, strTime] = do
-       pkgid    <- parseText    "pkgid"     strPkgid
+       pkgid    <- parsePkgid strPkgid
        revno    <- parseRead    "revno"     strRevno
        utcTime  <- parseUTCTime "time"      strTime
        return $ MetadataEntry pkgid revno utcTime
 
     fromRecord x = fail $ "Error index entries list: " ++ show x
+
+parsePkgid :: String -> Restore PackageIdentifier
+parsePkgid strPkgid = case simpleParsePackageIdentifier strPkgid of
+  Nothing -> fail
+    $ "Unable to 'simpleParse' pkgid "
+    ++ show strPkgid
+    ++ " as type PackageIdentifier"
+  Just (n, v, _) -> pure $ newPackageIdentifier n v
