@@ -34,7 +34,7 @@ import Distribution.PackageDescription.Check
 import Distribution.Parsec.Common
          ( showPError, showPWarning )
 import CabalCompat.Text
-         ( Text(..), Pretty(..), display, simpleParse )
+         ( Text(..), Pretty(..), Parsec(..), display, simpleParse )
 import Distribution.Server.Util.ParseSpecVer
 import qualified Distribution.SPDX as SPDX
 import qualified Distribution.License as License
@@ -71,6 +71,7 @@ import qualified System.FilePath.Posix
 import qualified Text.PrettyPrint as Disp
 import Text.Printf
          ( printf )
+import Distribution.Server.Framework.Instances ()
 
 -- Whether to allow upload of "all rights reserved" packages
 allowAllRightsReserved :: Bool
@@ -111,12 +112,15 @@ instance Pretty TaggedPackageId where
     | v == Data.Version.Version [] [] = pretty n
     | otherwise = pretty n Disp.<> Disp.char '-' Disp.<> disp v
 
+instance Parsec TaggedPackageId where
+  parsec = do
+    n <- parsec
+    v <- (Parse.char '-' >> parsec) Parse.<++ return (Data.Version.Version [] [])
+    return (TaggedPackageId n v)
+
 instance Text TaggedPackageId where
     disp = pretty
-    parse = do
-        n <- parse
-        v <- (Parse.char '-' >> parse) Parse.<++ return (Data.Version.Version [] [])
-        return (TaggedPackageId n v)
+    parse = parsec
 
 tarPackageChecks :: Bool -> UTCTime -> FilePath -> ByteString
                  -> UploadMonad (PackageIdentifier, TarIndex)

@@ -293,14 +293,13 @@ instance Text.Pretty InstallOutcome where
     InstallFailed -> Disp.text "InstallFailed"
     InstallOk -> Disp.text "InstallOk"
 
-instance Text.Text InstallOutcome where
-  disp = Text.pretty
-  parse = do
+instance Text.Parsec InstallOutcome where
+  parsec = do
     name <- Parse.munch1 Char.isAlphaNum
     case name of
       "PlanningFailed"   -> return PlanningFailed
       "DependencyFailed" -> do Parse.skipSpaces
-                               pkgid <- Text.parse
+                               pkgid <- Text.parsec
                                return (DependencyFailed pkgid)
       "DownloadFailed"   -> return DownloadFailed
       "UnpackFailed"     -> return UnpackFailed
@@ -311,21 +310,28 @@ instance Text.Text InstallOutcome where
       "InstallOk"        -> return InstallOk
       _                  -> Parse.pfail
 
+instance Text.Text InstallOutcome where
+  disp = Text.pretty
+  parse = Text.parsec
+
 instance Text.Pretty Outcome where
   pretty x = case x of
     NotTried -> Disp.text "NotTried"
     Failed -> Disp.text "Failed"
     Ok -> Disp.text "Ok"
 
-instance Text.Text Outcome where
-  disp = Text.pretty
-  parse = do
+instance Text.Parsec Outcome where
+  parsec = do
     name <- Parse.munch1 Char.isAlpha
     case name of
       "NotTried" -> return NotTried
       "Failed"   -> return Failed
       "Ok"       -> return Ok
       _          -> Parse.pfail
+
+instance Text.Text Outcome where
+  disp = Text.pretty
+  parse = Text.parsec
 
 instance MemSize BuildReport where
     memSize (BuildReport a b c d e f g h i j k l) = memSize10 a b c d e f g h i j + memSize k + memSize l

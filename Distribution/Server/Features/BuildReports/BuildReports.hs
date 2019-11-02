@@ -22,7 +22,7 @@ import Distribution.Server.Features.BuildReports.BuildReport
          (BuildReport(..), BuildReport_v0)
 
 import Distribution.Package (PackageId)
-import CabalCompat.Text (Text(..), Pretty(..), display)
+import CabalCompat.Text (Text(..), Pretty(..), Parsec(..), display)
 
 import Distribution.Server.Framework.MemSize
 import Distribution.Server.Framework.Instances
@@ -49,9 +49,12 @@ incrementReportId (BuildReportId n) = BuildReportId (n+1)
 instance Pretty BuildReportId where
   pretty (BuildReportId n) = Disp.int n
 
+instance Parsec BuildReportId where
+  parsec = BuildReportId <$> Parse.int
+
 instance Text BuildReportId where
   disp = pretty
-  parse = BuildReportId <$> Parse.int
+  parse = parsec
 
 newtype BuildLog = BuildLog BlobStorage.BlobId
   deriving (Eq, Typeable, Show, MemSize)

@@ -11,7 +11,7 @@ import Distribution.Server.Framework.MemSize
 import Distribution.Server.Users.AuthToken
 
 import CabalCompat.Text
-         ( Text(..), Pretty(..) )
+         ( Text(..), Pretty(..), Parsec(..) )
 import qualified Distribution.Server.Util.Parse as Parse
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
@@ -65,16 +65,22 @@ instance MemSize UserAuth where
 instance Pretty UserId where
   pretty (UserId uid) = Disp.int uid
 
+instance Parsec UserId where
+  parsec = UserId <$> Parse.int
+
 instance Text UserId where
     disp = pretty
-    parse = UserId <$> Parse.int
+    parse = parsec
 
 instance Pretty UserName where
   pretty (UserName name) = Disp.text name
 
+instance Parsec UserName where
+  parsec = UserName <$> Parse.munch1 isValidUserNameChar
+
 instance Text UserName where
     disp = pretty
-    parse = UserName <$> Parse.munch1 isValidUserNameChar
+    parse = parsec
 
 isValidUserNameChar :: Char -> Bool
 isValidUserNameChar c = (c < '\127' && Char.isAlphaNum c) || (c == '_')

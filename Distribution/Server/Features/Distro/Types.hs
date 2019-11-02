@@ -21,7 +21,7 @@ import Distribution.Package
 
 import Control.Applicative ((<$>))
 
-import CabalCompat.Text (Text(..), Pretty(..))
+import CabalCompat.Text (Text(..), Pretty(..), Parsec(..))
 
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
@@ -38,10 +38,12 @@ newtype DistroName = DistroName String
 instance Pretty DistroName where
   pretty (DistroName name) = Disp.text name
 
+instance Parsec DistroName where
+  parsec = DistroName <$> Parse.munch1 (\c -> Char.isAlphaNum c || c `elem` "-_()[]{}=$,;")
+
 instance Text DistroName where
   disp = pretty
-  parse = DistroName <$> Parse.munch1 (\c -> Char.isAlphaNum c || c `elem` "-_()[]{}=$,;")
-
+  parse = parsec
 
 -- | Listing of known distirbutions and their maintainers
 data Distributions = Distributions {

@@ -17,6 +17,7 @@ module Distribution.Server.Framework.Instances (
 
 import Distribution.Server.Prelude
 
+import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
 import Distribution.Server.Framework.MemSize
 
@@ -41,7 +42,9 @@ import Happstack.Server
 import Data.List (stripPrefix)
 
 import qualified Text.PrettyPrint as PP (text)
-import CabalCompat.ReadP (readS_to_P)
+import qualified Data.Version as Version
+import qualified Data.Char as Char
+import qualified Data.Time as Time
 
 -- These types are not defined in this package, so we cannot easily control
 -- changing these instances when the types change. So it's not safe to derive
@@ -296,16 +299,33 @@ instance MemSize Length where
 instance Pretty Day where
   pretty  = PP.text . show
 
+instance Parsec Day where
+  parsec = do
+    input <- Parse.count (length "2019-11-02") Parse.anyChar
+    Time.parseTimeM False Time.defaultTimeLocale "%Y-%m-%d" input
+
 instance Text Day where
   disp = pretty
-  parse = readS_to_P (reads :: ReadS Day)
+  parse = parsec
 
 instance Pretty UTCTime where
   pretty  = PP.text . show
 
+instance Parsec UTCTime where
+  parsec = do
+    input <- Parse.count (length "2019-11-02 12:49:57.403866964 UTC") Parse.anyChar
+    Time.parseTimeM False Time.defaultTimeLocale "%Y-%m-%d %H:%M:%S%Q %Z" input
+
 instance Text UTCTime where
   disp = pretty
-  parse = readS_to_P (reads :: ReadS UTCTime)
+  parse = parsec
+
+instance Parsec Version.Version where
+  parsec = do
+    let parseNat = fmap read $ Parse.munch1 Char.isDigit
+    branch <- Parse.sepBy1 parseNat $ Parse.char '.'
+    _tags <- Parse.many $ Parse.char '-' >> Parse.munch1 Char.isAlphaNum
+    pure $ Version.makeVersion branch
 
 -------------------
 -- Arbitrary instances

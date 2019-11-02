@@ -8,7 +8,6 @@
 module Distribution.Server.Prelude
     ( module X
     , parseTimeMaybe
-    , readPTime'
     , sortOn
     , isLeft
     ) where
@@ -36,11 +35,10 @@ import           Data.Either (isLeft)
 -- TODO: move somewhere else
 import Data.Time.Locale.Compat (defaultTimeLocale)
 -- import Text.ParserCombinators.ReadP (ReadP)
-import CabalCompat.ReadP as ReadP
 #if MIN_VERSION_time(1,5,0)
-import Data.Time.Format (ParseTime, parseTimeM, readSTime)
+import Data.Time.Format (ParseTime, parseTimeM)
 #else
-import Data.Time.Format (ParseTime, parseTime, readsTime)
+import Data.Time.Format (ParseTime, parseTime)
 #endif
 
 parseTimeMaybe :: ParseTime t => String -> String -> Maybe t
@@ -48,13 +46,6 @@ parseTimeMaybe :: ParseTime t => String -> String -> Maybe t
 parseTimeMaybe = parseTimeM True defaultTimeLocale
 #else
 parseTimeMaybe = parseTime defaultTimeLocale
-#endif
-
-readPTime' :: ParseTime t => String -> ReadP.ReadP r t
-#if MIN_VERSION_time(1,5,0)
-readPTime' fmt = ReadP.readS_to_P (readSTime True defaultTimeLocale fmt)
-#else
-readPTime' fmt = ReadP.readS_to_P (readsTime defaultTimeLocale fmt)
 #endif
 
 #if !MIN_VERSION_base(4,8,0)

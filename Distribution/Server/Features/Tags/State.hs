@@ -5,7 +5,6 @@ module Distribution.Server.Features.Tags.State where
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
-import qualified Distribution.ParseUtils   as Parse
 import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
 import Distribution.Package
@@ -31,9 +30,12 @@ newtype TagList = TagList [Tag] deriving (Show, Typeable)
 instance Pretty TagList where
   pretty (TagList tags) = Disp.hsep . Disp.punctuate Disp.comma $ map pretty tags
 
+instance Parsec TagList where
+  parsec = fmap TagList $ Parse.skipSpaces >> Parse.parseCommaList parsec
+
 instance Text TagList where
     disp = pretty
-    parse = fmap TagList $ Parse.skipSpaces >> Parse.parseCommaList parse
+    parse = parsec
 
 -- A tag is a string describing a package; presently the preferred word-separation
 -- character is the dash.
@@ -42,17 +44,20 @@ newtype Tag = Tag String deriving (Show, Typeable, Ord, Eq, NFData, MemSize)
 instance Pretty Tag where
   pretty (Tag tag) = Disp.text tag
 
+instance Parsec Tag where
+  parsec = do
+    -- adding 'many1 $ do' here would allow multiword tags.
+    -- spaces aren't very aesthetic in URIs, though.
+    strs <- do
+      t <- liftM2 (:) (Parse.satisfy tagInitialChar)
+        $ Parse.munch1 tagLaterChar
+      Parse.skipSpaces
+      return t
+    return $ Tag strs
+
 instance Text Tag where
     disp = pretty
-    parse = do
-        -- adding 'many1 $ do' here would allow multiword tags.
-        -- spaces aren't very aesthetic in URIs, though.
-        strs <- do
-            t <- liftM2 (:) (Parse.satisfy tagInitialChar)
-               $ Parse.munch1 tagLaterChar
-            Parse.skipSpaces
-            return t
-        return $ Tag strs
+    parse = parsec
 
 tagInitialChar, tagLaterChar :: Char -> Bool
 -- reserve + and - first-letters for queries
