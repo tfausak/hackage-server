@@ -3,7 +3,9 @@ module CabalCompat.Text
   , Distribution.Pretty.Pretty(pretty)
   , Distribution.Parsec.Class.Parsec(parsec)
   , Distribution.Text.display
+  , Distribution.Pretty.prettyShow
   , Distribution.Text.simpleParse
+  , Distribution.Parsec.Class.simpleParsec
   ) where
 
 import qualified Distribution.Parsec.Class

@@ -441,11 +441,11 @@ instance Migrate VersionRange where
     migrate (VersionRange_v0 v) = v
 
 
-textGet_v0 :: Text a => Serialize.Get a
-textGet_v0 = (fromJust . simpleParse) <$> Serialize.get
+textGet_v0 :: Parsec a => Serialize.Get a
+textGet_v0 = (fromJust . simpleParsec) <$> Serialize.get
 
-textPut_v0 :: Text a => a -> Serialize.Put
-textPut_v0 = Serialize.put . display
+textPut_v0 :: Pretty a => a -> Serialize.Put
+textPut_v0 = Serialize.put . prettyShow
 
 ---------------------------------------------------------------------
 
