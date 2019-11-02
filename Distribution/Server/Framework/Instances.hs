@@ -114,7 +114,7 @@ instance SafeCopy VersionRange where
             6 -> withinVersion    <$> safeGet
             7 -> unionVersionRanges     <$> getVR <*> getVR
             8 -> intersectVersionRanges <$> getVR <*> getVR
-            9 -> undefined -- TODO
+            9 -> getVR
             10 -> majorBoundVersion     <$> safeGet  -- since Cabal-2.0
             _ -> fail "VersionRange.getCopy: bad tag"
 
@@ -313,7 +313,7 @@ instance Parsec UTCTime where
     Time.parseTimeM False Time.defaultTimeLocale "%Y-%m-%d %H:%M:%S%Q %Z" input
 
 instance Pretty Version.Version where
-  pretty = undefined -- TODO
+  pretty = PP.text . Version.showVersion
 
 instance Parsec Version.Version where
   parsec = do

@@ -27,10 +27,15 @@ import Distribution.Types.LegacyExeDependency
 import Distribution.Types.UnqualComponentName
 import Distribution.Types.CondTree
 import Distribution.Types.ForeignLib
+import Distribution.Types.PkgconfigVersion
 import Distribution.Types.PkgconfigVersionRange
+import Distribution.Fields.Pretty
 import CabalCompat.Package
-import CabalCompat.Text (Pretty, display)
+import CabalCompat.Text (Pretty, display, simpleParse, pretty)
 import Distribution.Version
+import Distribution.CabalSpecVersion
+import Distribution.FieldGrammar (prettyFieldGrammar)
+import Distribution.PackageDescription.FieldGrammar (sourceRepoFieldGrammar)
 import Distribution.Compiler (CompilerFlavor)
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Parsec (parseGenericPackageDescription, runParseResult)
@@ -38,7 +43,7 @@ import Distribution.PackageDescription.Check
 import Distribution.Parsec (showPWarning, showPError, PWarning (..))
 import Distribution.Simple.LocalBuildInfo (showComponentName)
 import Text.PrettyPrint as Doc
-         ((<+>), colon, text, Doc, hsep, punctuate)
+         ((<+>), ($+$), colon, text, Doc, hsep, punctuate, nest)
 
 import Control.Applicative
 import Control.Monad
@@ -53,6 +58,10 @@ import qualified Data.Char as Char
 import qualified Data.Semigroup as S
 import qualified Data.Monoid as M
 import qualified Data.Set as Set
+import qualified Data.Maybe as Maybe
+import qualified Data.Text as Text
+import qualified Data.Text.Encoding as Text
+import qualified Data.Text.Encoding.Error as Text
 import qualified Data.Map.Strict as Map
 import Data.Foldable (foldMap)
 import Data.Proxy (Proxy(Proxy))
@@ -508,9 +517,27 @@ instance IsDependency PkgconfigDependency where
     depTypeName Proxy                      = "pkg-config"
     depKey (PkgconfigDependency pkgname _) = pkgname
     depKeyShow Proxy                       = display''
-    depVerRg (PkgconfigDependency _ _) = undefined -- TODO
+    depVerRg (PkgconfigDependency _ vr) = pkgconfigVersionRangeToVersionRange vr
     reconstructDep n v = PkgconfigDependency n (versionRangeToPkgconfigVersionRange v)
 
+pkgconfigVersionRangeToVersionRange :: PkgconfigVersionRange -> VersionRange
+pkgconfigVersionRangeToVersionRange r = case r of
+  PcAnyVersion -> anyVersion
+  PcThisVersion v -> thisVersion (pkgconfigVersionToVersion v)
+  PcLaterVersion v -> laterVersion (pkgconfigVersionToVersion v)
+  PcEarlierVersion v -> earlierVersion (pkgconfigVersionToVersion v)
+  PcOrLaterVersion v -> orLaterVersion (pkgconfigVersionToVersion v)
+  PcOrEarlierVersion v -> orEarlierVersion (pkgconfigVersionToVersion v)
+  PcUnionVersionRanges r1 r2 -> unionVersionRanges (pkgconfigVersionRangeToVersionRange r1) (pkgconfigVersionRangeToVersionRange r2)
+  PcIntersectVersionRanges r1 r2 -> intersectVersionRanges (pkgconfigVersionRangeToVersionRange r1) (pkgconfigVersionRangeToVersionRange r2)
+
+pkgconfigVersionToVersion :: PkgconfigVersion -> Version
+pkgconfigVersionToVersion (PkgconfigVersion v)
+  = Maybe.fromMaybe (error $ "pkgconfigVersionToVersion: " ++ show (PkgconfigVersion v) ++ " is not a valid Version")
+  . simpleParse
+  . Text.unpack
+  . Text.decodeUtf8With Text.lenientDecode
+  $ v
 
 -- The result tuple represents the 3 canonicalised dependency
 -- (removed deps (old ranges), retained deps (old & new ranges), added deps (new ranges))
@@ -702,7 +729,12 @@ ppTestedWith = hsep . punctuate colon . map (uncurry ppPair)
 
 --TODO: export from Cabal
 ppSourceRepo :: SourceRepo -> Doc
-ppSourceRepo = undefined -- TODO
+ppSourceRepo repo =
+  ( text " " )
+  $+$
+  ( text "source-repository" <+> pretty (repoKind repo) )
+  $+$
+  ( nest 4 . text . showFields (const []) $ prettyFieldGrammar CabalSpecV1_10 (sourceRepoFieldGrammar (repoKind repo)) repo )
 
 -- TODO: Verify that we don't need to worry about UTF8
 -- | Insert or update \"x-revision:\" field
