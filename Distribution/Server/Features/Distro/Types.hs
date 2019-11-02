@@ -21,7 +21,7 @@ import CabalCompat.Package
 
 import Control.Applicative ((<$>))
 
-import CabalCompat.Text (Text(..), Pretty(..), Parsec(..))
+import CabalCompat.Text (Pretty(..), Parsec(..))
 
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
@@ -40,10 +40,6 @@ instance Pretty DistroName where
 
 instance Parsec DistroName where
   parsec = DistroName <$> Parse.munch1 (\c -> Char.isAlphaNum c || c `elem` "-_()[]{}=$,;")
-
-instance Text DistroName where
-  disp = pretty
-  parse = parsec
 
 -- | Listing of known distirbutions and their maintainers
 data Distributions = Distributions {

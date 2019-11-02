@@ -27,7 +27,7 @@ import Distribution.Server.Users.Types
 import CabalCompat.Package
          ( PackageId, PackageName, packageName, PackageIdentifier(..))
 import CabalCompat.Text
-         ( Text(..), Pretty(..), Parsec(..), simpleParse )
+         ( Pretty(..), Parsec(..), simpleParse )
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
 import Text.PrettyPrint
@@ -52,7 +52,7 @@ data Entry = Entry UTCTime UserName PackageIdentifier
 instance Pretty Entry where
   pretty (Entry time user pkgid) =
         Disp.text (formatTime defaultTimeLocale "%c" time)
-    <+> disp user <+> disp pkgid
+    <+> pretty user <+> pretty pkgid
 
 instance Parsec Entry where
   parsec = do
@@ -65,10 +65,6 @@ instance Parsec Entry where
     ver  <- parsec
     let pkgid = PackageIdentifier pkg ver
     return (Entry (zonedTimeToUTC time) user pkgid)
-
-instance Text Entry where
-  disp = pretty
-  parse = parsec
 
 -- | Returns a list of log entries, however some packages have been uploaded
 -- more than once, so each entry is paired with any older entries for the same

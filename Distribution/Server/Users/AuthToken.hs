@@ -13,7 +13,7 @@ import Distribution.Server.Framework.MemSize
 import Distribution.Server.Util.Nonce
 
 import CabalCompat.Text
-         ( Text(..), Pretty(..), Parsec(..) )
+         ( Pretty(..), Parsec(..) )
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint          as Disp
 import qualified Data.Char as Char
@@ -81,10 +81,6 @@ instance Parsec AuthToken where
     case parseAuthToken $ T.pack x of
       Left err -> fail err
       Right ok -> return ok
-
-instance Text AuthToken where
-    disp = pretty
-    parse = parsec
 
 instance SafeCopy AuthToken where
     putCopy (AuthToken bs) = contain $ safePut (BSS.fromShort bs)

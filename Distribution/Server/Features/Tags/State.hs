@@ -33,10 +33,6 @@ instance Pretty TagList where
 instance Parsec TagList where
   parsec = fmap TagList $ Parse.skipSpaces >> Parse.parseCommaList parsec
 
-instance Text TagList where
-    disp = pretty
-    parse = parsec
-
 -- A tag is a string describing a package; presently the preferred word-separation
 -- character is the dash.
 newtype Tag = Tag String deriving (Show, Typeable, Ord, Eq, NFData, MemSize)
@@ -54,10 +50,6 @@ instance Parsec Tag where
       Parse.skipSpaces
       return t
     return $ Tag strs
-
-instance Text Tag where
-    disp = pretty
-    parse = parsec
 
 tagInitialChar, tagLaterChar :: Char -> Bool
 -- reserve + and - first-letters for queries

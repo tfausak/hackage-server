@@ -17,7 +17,7 @@ import Distribution.Server.Features.Upload
 
 import CabalCompat.Package
 import CabalCompat.Text (display)
-import Distribution.Parsec.Common ( showPError )
+import Distribution.Parsec ( showPError )
 import Distribution.Server.Util.ParseSpecVer
 import Distribution.Server.Util.CabalRevisions
          (Change(..), diffCabalRevisions, insertRevisionField)

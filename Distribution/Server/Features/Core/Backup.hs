@@ -25,7 +25,7 @@ import qualified Distribution.Server.Packages.PackageIndex as PackageIndex
 
 import CabalCompat.Package
 import Distribution.PackageDescription.Parsec (parseGenericPackageDescription, runParseResult)
-import Distribution.Parsec.Common (showPError)
+import Distribution.Parsec (showPError)
 import CabalCompat.Text
 import Data.Version (Version(..), showVersion)
 import Text.CSV
@@ -127,8 +127,9 @@ doPackageImport (PartialIndex packages updatelog) entry = case entry of
       _ -> Nothing
 
 parsePackageId :: String -> Restore PackageId
-parsePackageId = parsePackageIdentifier $ \ pkgStr ->
-  "Package directory " ++ show pkgStr ++ " isn't a valid package id"
+parsePackageId pkgStr = case simpleParse pkgStr of
+  Nothing    -> fail $ "Package directory " ++ show pkgStr ++ " isn't a valid package id"
+  Just pkgId -> return pkgId
 
 importCabalMetadata :: [String] -> CSV -> Restore [(Int, UploadInfo)]
 importCabalMetadata _fp (_versionStr:_headers:body) =
@@ -425,7 +426,7 @@ importTarIndexEntries = fmap Seq.fromList . mapM fromRecord . drop 1
   where
     fromRecord :: Record -> Restore TarIndexEntry
     fromRecord ["cabal", strPkgid, strRevno, strTime, strUid, username] = do
-       pkgid    <- parsePkgid strPkgid
+       pkgid    <- parseText "pkgid" strPkgid
        revno    <- parseRead    "revno"     strRevno
        utcTime  <- parseUTCTime "time"      strTime
        uid      <- parseText    "uid"       strUid
@@ -438,24 +439,9 @@ importTarIndexEntries = fmap Seq.fromList . mapM fromRecord . drop 1
        return $ ExtraEntry extrapath (BSC.pack extracontent) utcTime
 
     fromRecord ["metadata", strPkgid, strRevno, strTime] = do
-       pkgid    <- parsePkgid strPkgid
+       pkgid    <- parseText "pkgid" strPkgid
        revno    <- parseRead    "revno"     strRevno
        utcTime  <- parseUTCTime "time"      strTime
        return $ MetadataEntry pkgid revno utcTime
 
     fromRecord x = fail $ "Error index entries list: " ++ show x
-
-parsePkgid :: String -> Restore PackageIdentifier
-parsePkgid = parsePackageIdentifier $ \ strPkgid ->
-  "Unable to 'simpleParse' pkgid "
-  ++ show strPkgid
-  ++ " as type PackageIdentifier"
-
-parsePackageIdentifier
-  :: (String -> String)
-  -> String
-  -> Restore PackageIdentifier
-parsePackageIdentifier makeErrorMessage input =
-  case simpleParsePackageIdentifier input of
-    Nothing -> fail $ makeErrorMessage input
-    Just (name, version, _) -> pure $ newPackageIdentifier name version

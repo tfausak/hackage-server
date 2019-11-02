@@ -18,11 +18,11 @@ import qualified Codec.Archive.Tar.Entry as Tar
 import qualified Codec.Archive.Tar.Check as Tar
 
 import Distribution.Version
-         ( mkVersion )
+         ( mkVersion, nullVersion )
 import Distribution.Types.PackageName
          ( mkPackageName, unPackageName )
 import CabalCompat.Package
-         ( PackageIdentifier, packageVersion, packageName, newPackageIdentifier, simpleParsePackageIdentifier )
+         ( PackageIdentifier, PackageName, packageVersion, packageName )
 import Distribution.PackageDescription
          ( GenericPackageDescription(..), PackageDescription(..)
          , licenseRaw, specVersion )
@@ -31,10 +31,11 @@ import Distribution.PackageDescription.Configuration
 import Distribution.PackageDescription.Check
          ( PackageCheck(..), checkPackage, CheckPackageContentOps(..)
          , checkPackageContent )
-import Distribution.Parsec.Common
+import Distribution.Parsec
          ( showPError, showPWarning )
 import CabalCompat.Text
-         ( display )
+         ( Parsec(..), display, simpleParse )
+import qualified CabalCompat.ReadP as Parse
 import Distribution.Server.Util.ParseSpecVer
 import qualified Distribution.SPDX as SPDX
 import qualified Distribution.License as License
@@ -70,6 +71,8 @@ import Text.Printf
          ( printf )
 import Distribution.Server.Framework.Instances ()
 
+import qualified Data.Version
+
 -- Whether to allow upload of "all rights reserved" packages
 allowAllRightsReserved :: Bool
 allowAllRightsReserved = True
@@ -99,6 +102,17 @@ unpackPackageRaw tarGzFile contents =
   where
     noTime = UTCTime (fromGregorian 1970 1 1) 0
 
+data TaggedPackageId = TaggedPackageId {
+        _taggedPkgName   :: PackageName,
+        taggedPkgVersion :: Data.Version.Version
+    }
+
+instance Parsec TaggedPackageId where
+    parsec = do
+        n <- parsec
+        v <- (Parse.char '-' >> parsec) Parse.<++ return (Data.Version.Version [] [])
+        return (TaggedPackageId n v)
+
 tarPackageChecks :: Bool -> UTCTime -> FilePath -> ByteString
                  -> UploadMonad (PackageIdentifier, TarIndex)
 tarPackageChecks lax now tarGzFile contents = do
@@ -108,19 +122,23 @@ tarPackageChecks lax now tarGzFile contents = do
   unless (ext == ".tar.gz") $
     throwError $ tarGzFile ++ " is not a gzipped tar file, it must have the .tar.gz extension"
 
-  pkgid <- case simpleParsePackageIdentifier pkgidStr of
-    Just (n, bs, ts)
-      | null bs
+  let versionTags (Data.Version.Version _ ts) = ts
+
+  pkgid <- case (simpleParse pkgidStr, simpleParse pkgidStr) of
+    (Just pkgid, Just tagged_pkgid)
+      | (== nullVersion) . packageVersion $ pkgid
       -> throwError $ "Invalid package id " ++ quote pkgidStr
                    ++ ". It must include the package version number, and not just "
                    ++ "the package name, e.g. 'foo-1.0'."
 
-      | not (null ts)
-      -> throwError $ "Hackage no longer accepts packages with version tags: "
-                   ++ intercalate ", " ts
+      | display pkgid == pkgidStr -> return (pkgid :: PackageIdentifier)
 
-      | otherwise
-      -> pure (newPackageIdentifier n bs)
+      -- NB: we have to use 'TaggedPackageId' here, because the 'PackageId'
+      -- parser will drop tags.
+      | not . null . versionTags . taggedPkgVersion $ tagged_pkgid
+      -> throwError $ "Hackage no longer accepts packages with version tags: "
+                   ++ intercalate ", " (versionTags (taggedPkgVersion tagged_pkgid))
+
 
     _ -> throwError $ "Invalid package id " ++ quote pkgidStr
                    ++ ". The tarball must use the name of the package."

@@ -21,7 +21,7 @@ import qualified CabalCompat.ReadP as Parse
 import CabalCompat.Text
 import Distribution.Server.Framework.MemSize
 
-import CabalCompat.Package  (PackageIdentifier(..), newPackageIdentifier, simpleParsePackageIdentifier)
+import CabalCompat.Package  (PackageIdentifier(..))
 import Distribution.Compiler (CompilerFlavor(..), CompilerId(..))
 import Distribution.System   (OS(..), Arch(..))
 import Distribution.Types.GenericPackageDescription (FlagName, mkFlagName, unFlagName)
@@ -114,7 +114,7 @@ instance SafeCopy VersionRange where
             6 -> withinVersion    <$> safeGet
             7 -> unionVersionRanges     <$> getVR <*> getVR
             8 -> intersectVersionRanges <$> getVR <*> getVR
-            9 -> VersionRangeParens     <$> getVR
+            9 -> undefined -- TODO
             10 -> majorBoundVersion     <$> safeGet  -- since Cabal-2.0
             _ -> fail "VersionRange.getCopy: bad tag"
 
@@ -268,7 +268,7 @@ instance SafeCopy FlagName where
     getCopy = contain $ mkFlagName <$> safeGet
 
 instance FromReqURI PackageIdentifier where
-  fromReqURI = fmap (\ (n, v, _) -> newPackageIdentifier n v) . simpleParsePackageIdentifier
+  fromReqURI = simpleParse
 
 instance FromReqURI PackageName where
   fromReqURI = simpleParse
@@ -304,10 +304,6 @@ instance Parsec Day where
     input <- Parse.count (length "2019-11-02") Parse.anyChar
     Time.parseTimeM False Time.defaultTimeLocale "%Y-%m-%d" input
 
-instance Text Day where
-  disp = pretty
-  parse = parsec
-
 instance Pretty UTCTime where
   pretty  = PP.text . show
 
@@ -316,12 +312,8 @@ instance Parsec UTCTime where
     input <- Parse.count (length "2019-11-02 12:49:57.403866964 UTC") Parse.anyChar
     Time.parseTimeM False Time.defaultTimeLocale "%Y-%m-%d %H:%M:%S%Q %Z" input
 
-instance Text UTCTime where
-  disp = pretty
-  parse = parsec
-
 instance Pretty Version.Version where
-  pretty = disp
+  pretty = undefined -- TODO
 
 instance Parsec Version.Version where
   parsec = do
@@ -329,9 +321,6 @@ instance Parsec Version.Version where
     branch <- Parse.sepBy1 parseNat $ Parse.char '.'
     _tags <- Parse.many $ Parse.char '-' >> Parse.munch1 Char.isAlphaNum
     pure $ Version.makeVersion branch
-
-instance Pretty CompilerId where
-  pretty = disp
 
 -------------------
 -- Arbitrary instances

@@ -33,25 +33,18 @@ module Distribution.Server.Features.BuildReports.BuildReport (
 import CabalCompat.Package
          ( PackageIdentifier(..) )
 import Distribution.Types.GenericPackageDescription
-         ( FlagName, mkFlagName, unFlagName )
+         ( FlagName )
 import Distribution.System
          ( OS, Arch )
 import Distribution.Compiler
          ( CompilerId )
 import qualified CabalCompat.Text as Text
-import Distribution.ParseUtils
-         ( FieldDescr(..), ParseResult(..), Field(..)
-         , simpleField, boolField, listField, readFields
-         , syntaxError, locatedErrorMsg, showFields )
-import Distribution.Simple.Utils
-         ( comparing )
-import Distribution.Server.Util.Merge
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint.HughesPJ as Disp
-         ( Doc, char, text, (<>) )
+         ( Doc, text )
 import Text.PrettyPrint.HughesPJ
          ( (<+>), render )
 import Data.Serialize as Serialize
@@ -64,10 +57,6 @@ import Text.StringTemplate ()
 import Text.StringTemplate.Classes
          ( SElem(..), ToSElem(..) )
 
-import Data.Foldable
-         ( foldMap )
-import Data.List
-         ( unfoldr, sortBy )
 import Data.Char as Char
          ( isAlpha, isAlphaNum )
 import qualified Data.ByteString.Char8 as BS
@@ -147,30 +136,6 @@ data Outcome = NotTried | Failed | Ok deriving (Eq, Ord, Show)
 -- * External format
 -- ------------------------------------------------------------
 
-initialBuildReport :: BuildReport
-initialBuildReport = BuildReport {
-    package         = requiredField "package",
-    time            = Nothing,
-    docBuilder      = False,
-    os              = requiredField "os",
-    arch            = requiredField "arch",
-    compiler        = requiredField "compiler",
-    client          = requiredField "client",
-    flagAssignment  = [],
-    dependencies    = [],
-    installOutcome  = requiredField "install-outcome",
---    cabalVersion  = Nothing,
---    tools         = [],
-    docsOutcome     = NotTried,
-    testsOutcome    = NotTried
-  }
-  where
-    requiredField fname = error ("required field: " ++ fname)
-
-requiredFields :: [String]
-requiredFields
-    = ["package", "os", "arch", "compiler", "client", "install-outcome"]
-
 -- -----------------------------------------------------------------------------
 -- Timestamps
 
@@ -184,107 +149,27 @@ affixTimestamp report = case time report of
 -- Parsing
 
 read :: String -> BuildReport
-read s = case parse s of
-  Left  err -> error $ "error parsing build report: " ++ err
-  Right rpt -> rpt
+read = undefined -- TODO
 
 parse :: String -> Either String BuildReport
-parse s = case parseFields s of
-  ParseFailed perror -> Left msg where (_, msg) = locatedErrorMsg perror
-  ParseOk   _ report -> Right report
-
-parseFields :: String -> ParseResult BuildReport
-parseFields input = do
-  fields <- mapM extractField =<< readFields input
-  let merged = mergeBy (\desc (_,name,_) -> compare (fieldName desc) name)
-                       sortedFieldDescrs
-                       (sortBy (comparing (\(_,name,_) -> name)) fields)
-  foldM checkMerged initialBuildReport merged
-
-  where
-    extractField :: Field -> ParseResult (Int, String, String)
-    extractField (F line name value)  = return (line, name, value)
-    extractField (Section line _ _ _) = syntaxError line "Unrecognized stanza"
-    extractField (IfBlock line _ _ _) = syntaxError line "Unrecognized stanza"
-
-    checkMerged report merged = case merged of
-      InBoth fieldDescr (line, _name, value) ->
-        fieldSet fieldDescr line value report
-      OnlyInRight (line, name, _) ->
-        syntaxError line ("Unrecognized field " ++ name)
-      OnlyInLeft  fieldDescr
-        | fieldName fieldDescr `elem` requiredFields ->
-            fail ("Missing field " ++ fieldName fieldDescr)
-        | otherwise -> return report
+parse = undefined -- TODO
 
 parseList :: String -> [BuildReport]
-parseList str =
-  [ report | Right report <- map parse (split str) ]
-
-  where
-    split :: String -> [String]
-    split = filter (not . null) . unfoldr chunk . lines
-    chunk [] = Nothing
-    chunk ls = case break null ls of
-                 (r, rs) -> Just (unlines r, dropWhile null rs)
+parseList = undefined -- TODO
 
 -- -----------------------------------------------------------------------------
 -- Pretty-printing
 
 show :: BuildReport -> String
-show = showFields fieldDescrs
-
--- -----------------------------------------------------------------------------
--- Description of the fields, for parsing/printing
-
-fieldDescrs :: [FieldDescr BuildReport]
-fieldDescrs =
- [ simpleField "package"         Text.disp      Text.parse
-                                 package        (\v r -> r { package = v })
- , simpleField "time"            dispTime       parseTime
-                                 time           (\v r -> r { time = v })
- , boolField   "doc-builder"     docBuilder     (\v r -> r { docBuilder = v })
- , simpleField "os"              Text.disp      Text.parse
-                                 os             (\v r -> r { os = v })
- , simpleField "arch"            Text.disp      Text.parse
-                                 arch           (\v r -> r { arch = v })
- , simpleField "compiler"        Text.disp      Text.parse
-                                 compiler       (\v r -> r { compiler = v })
- , simpleField "client"          Text.disp      Text.parse
-                                 client         (\v r -> r { client = v })
- , listField   "flags"           dispFlag       parseFlag
-                                 flagAssignment (\v r -> r { flagAssignment = v })
- , listField   "dependencies"    Text.disp      Text.parse
-                                 dependencies   (\v r -> r { dependencies = v })
- , simpleField "install-outcome" Text.disp      Text.parse
-                                 installOutcome (\v r -> r { installOutcome = v })
- , simpleField "docs-outcome"    Text.disp      Text.parse
-                                 docsOutcome    (\v r -> r { docsOutcome = v })
- , simpleField "tests-outcome"   Text.disp      Text.parse
-                                 testsOutcome   (\v r -> r { testsOutcome = v })
- ]
-  where
-    dispTime = foldMap Text.disp
-    parseTime = (Just <$> Text.parse) Parse.<++ pure Nothing
-
-sortedFieldDescrs :: [FieldDescr BuildReport]
-sortedFieldDescrs = sortBy (comparing fieldName) fieldDescrs
+show = undefined -- TODO
 
 dispFlag :: (FlagName, Bool) -> Disp.Doc
-dispFlag (fn, True)  =                       Disp.text (unFlagName fn)
-dispFlag (fn, False) = Disp.char '-' Disp.<> Disp.text (unFlagName fn)
-
-parseFlag :: Parse.CabalParsing m => m (FlagName, Bool)
-parseFlag = do
-  name <- Parse.munch1 (\c -> Char.isAlphaNum c || c == '_' || c == '-')
-  case name of
-    ('-':flag) -> return (mkFlagName flag, False)
-    flag       -> return (mkFlagName flag, True)
+dispFlag = undefined -- TODO
 
 instance Text.Pretty InstallOutcome where
   pretty x = case x of
     PlanningFailed -> Disp.text "PlanningFailed"
-    (DependencyFailed pkgid) -> Disp.text "DependencyFailed" <+> Text.disp pkgid
+    (DependencyFailed pkgid) -> Disp.text "DependencyFailed" <+> Text.pretty pkgid
     DownloadFailed -> Disp.text "DownloadFailed"
     UnpackFailed -> Disp.text "UnpackFailed"
     SetupFailed -> Disp.text "SetupFailed"
@@ -310,10 +195,6 @@ instance Text.Parsec InstallOutcome where
       "InstallOk"        -> return InstallOk
       _                  -> Parse.pfail
 
-instance Text.Text InstallOutcome where
-  disp = Text.pretty
-  parse = Text.parsec
-
 instance Text.Pretty Outcome where
   pretty x = case x of
     NotTried -> Disp.text "NotTried"
@@ -328,10 +209,6 @@ instance Text.Parsec Outcome where
       "Failed"   -> return Failed
       "Ok"       -> return Ok
       _          -> Parse.pfail
-
-instance Text.Text Outcome where
-  disp = Text.pretty
-  parse = Text.parsec
 
 instance MemSize BuildReport where
     memSize (BuildReport a b c d e f g h i j k l) = memSize10 a b c d e f g h i j + memSize k + memSize l

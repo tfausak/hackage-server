@@ -13,7 +13,6 @@ module CabalCompat.ReadP
   , parseMaybeQuoted
   , pfail
   , readPTime'
-  , Distribution.Compat.ReadP.readP_to_S
   , Distribution.Compat.CharParsing.satisfy
   , Distribution.Compat.CharParsing.sepBy1
   , skipSpaces
@@ -24,8 +23,7 @@ import qualified Control.Monad
 import qualified Data.Char
 import qualified Data.Time
 import qualified Distribution.Compat.CharParsing
-import qualified Distribution.Compat.ReadP
-import qualified Distribution.Parsec.Class
+import qualified Distribution.Parsec as Distribution.Parsec.Class
 
 int :: Distribution.Parsec.Class.CabalParsing m => m Int
 int = do

@@ -67,12 +67,10 @@ import System.FilePath ((</>), takeDirectory, splitDirectories)
 import System.Directory (doesFileExist, doesDirectoryExist)
 import Text.CSV hiding (csv)
 import CabalCompat.Text
-import CabalCompat.Package
 import Data.Map (Map)
 import Data.Version (Version)
 import qualified Data.Version as Version
 import Text.ParserCombinators.ReadP (readP_to_S)
-import Unsafe.Coerce
 
 --------------------------------------------------------------------------------
 -- Creating/restoring backups                                                 --
@@ -180,16 +178,9 @@ timeFormatSpec = "%Y-%m-%d %H:%M:%S%Q %z"
 -- Parse a string, throw an error if it's bad
 parseText :: forall a m. (Parsec a, Monad m, Typeable a) => String -> String -> m a
 parseText label text =
-  let
-    tipe = show $ typeOf (undefined :: a)
-    result = case tipe of
-      "PackageIdentifier" -> fmap
-        (\ (n, v, _) -> unsafeCoerce $ newPackageIdentifier n v)
-        $ simpleParsePackageIdentifier text
-      _ -> simpleParse text
-  in case result of
+  case simpleParse text of
     Nothing -> fail
-      $ "Unable to 'simpleParse' " ++ label ++ " " ++ show text ++ " as type " ++ tipe
+      $ "Unable to 'simpleParse' " ++ label ++ " " ++ show text ++ " as type " ++ show (typeOf (undefined :: a))
     Just a -> pure a
 
 parseVersion :: Monad m => String -> String -> m Version

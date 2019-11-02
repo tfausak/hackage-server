@@ -378,7 +378,7 @@ versionsFeature ServerEnv{ serverVerbosity = verbosity }
 
     formatSinglePreferredVersions :: PackageName -> PreferredInfo -> Maybe String
     formatSinglePreferredVersions pkgname pref =
-      display . Dependency pkgname <$> sumRange pref
+      display . (\ x -> Dependency pkgname x mempty) <$> sumRange pref
 
     formatGlobalPreferredVersions :: [(PackageName, PreferredInfo)] -> String
     formatGlobalPreferredVersions =

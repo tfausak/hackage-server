@@ -27,20 +27,18 @@ import Distribution.Types.LegacyExeDependency
 import Distribution.Types.UnqualComponentName
 import Distribution.Types.CondTree
 import Distribution.Types.ForeignLib
+import Distribution.Types.PkgconfigVersionRange
 import CabalCompat.Package
 import CabalCompat.Text (Pretty, display)
 import Distribution.Version
 import Distribution.Compiler (CompilerFlavor)
-import Distribution.FieldGrammar (prettyFieldGrammar)
 import Distribution.PackageDescription
 import Distribution.PackageDescription.Parsec (parseGenericPackageDescription, runParseResult)
-import Distribution.PackageDescription.FieldGrammar (sourceRepoFieldGrammar)
 import Distribution.PackageDescription.Check
-import Distribution.Parsec.Common (showPWarning, showPError, PWarning (..))
-import CabalCompat.Text (Text(..))
+import Distribution.Parsec (showPWarning, showPError, PWarning (..))
 import Distribution.Simple.LocalBuildInfo (showComponentName)
 import Text.PrettyPrint as Doc
-         (nest, (<+>), colon, text, ($+$), Doc, hsep, punctuate)
+         ((<+>), colon, text, Doc, hsep, punctuate)
 
 import Control.Applicative
 import Control.Monad
@@ -168,13 +166,13 @@ checkGenericPackageDescription
 
     checkMaybe "Cannot add or remove library sections"
       (checkCondTree checkLibrary)
-      (withComponentName' CLibName <$> libsA)
-      (withComponentName' CLibName <$> libsB)
+      (withComponentName' (CLibName LMainLibName) <$> libsA)
+      (withComponentName' (CLibName LMainLibName) <$> libsB)
 
     checkListAssoc "Cannot add or remove sub-library sections"
       (checkCondTree checkLibrary)
-      (withComponentName CSubLibName <$> sublibsA)
-      (withComponentName CSubLibName <$> sublibsB)
+      (withComponentName (CLibName . LSubLibName) <$> sublibsA)
+      (withComponentName (CLibName . LSubLibName) <$> sublibsB)
 
     checkListAssoc "Cannot add or remove foreign-library sections"
       (checkCondTree checkForeignLib)
@@ -449,12 +447,12 @@ instance IsDependency Dependency where
     type DepKey Dependency = PackageName
 
     depTypeName Proxy             = "library"
-    depKey (Dependency pkgname _) = pkgname
+    depKey (Dependency pkgname _ _) = pkgname
     depKeyShow Proxy              = display''
-    depVerRg (Dependency _ vr)    = vr
-    reconstructDep                = Dependency
+    depVerRg (Dependency _ vr _)  = vr
+    reconstructDep n v = Dependency n v mempty
 
-    depInAddWhitelist (Dependency pn _) = pn `elem`
+    depInAddWhitelist (Dependency pn _ _) = pn `elem`
     -- Special case: there are some pretty weird broken packages out there, see
     --   https://github.com/haskell/hackage-server/issues/303
     -- which need us to add a new dep on `base`
@@ -510,8 +508,8 @@ instance IsDependency PkgconfigDependency where
     depTypeName Proxy                      = "pkg-config"
     depKey (PkgconfigDependency pkgname _) = pkgname
     depKeyShow Proxy                       = display''
-    depVerRg (PkgconfigDependency _ vr)    = vr
-    reconstructDep                         = PkgconfigDependency
+    depVerRg (PkgconfigDependency _ _) = undefined -- TODO
+    reconstructDep n v = PkgconfigDependency n (versionRangeToPkgconfigVersionRange v)
 
 
 -- The result tuple represents the 3 canonicalised dependency
@@ -561,9 +559,9 @@ checkSetupBuildInfo (Just (SetupBuildInfo setupDependsA _internalA))
 checkLibrary :: ComponentName -> Check Library
 checkLibrary componentName
              (Library modulesA reexportedA requiredSigsA exposedSigsA
-                      exposedA buildInfoA)
+                      exposedA _ buildInfoA)
              (Library modulesB reexportedB requiredSigsB exposedSigsB
-                      exposedB buildInfoB) = do
+                      exposedB _ buildInfoB) = do
   checkSame "Cannot change the exposed modules" modulesA modulesB
   checkSame "Cannot change the re-exported modules" reexportedA reexportedB
   checkSame "Cannot change the required signatures" requiredSigsA requiredSigsB
@@ -704,13 +702,7 @@ ppTestedWith = hsep . punctuate colon . map (uncurry ppPair)
 
 --TODO: export from Cabal
 ppSourceRepo :: SourceRepo -> Doc
-ppSourceRepo repo = emptyLine $
-    text "source-repository" <+> disp (repoKind repo)
-    $+$
-    nest 4 (prettyFieldGrammar (sourceRepoFieldGrammar (repoKind repo)) repo)
-  where
-    emptyLine :: Doc -> Doc
-    emptyLine d = text " " $+$ d
+ppSourceRepo = undefined -- TODO
 
 -- TODO: Verify that we don't need to worry about UTF8
 -- | Insert or update \"x-revision:\" field
