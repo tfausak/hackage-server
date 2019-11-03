@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable, GeneralizedNewtypeDeriving, RecordWildCards,
-             TemplateHaskell, TypeFamilies #-}
+             TemplateHaskell, TypeFamilies, FlexibleInstances, MultiParamTypeClasses #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Distribution.Client.Reporting
@@ -36,6 +36,11 @@ import Distribution.System
 import Distribution.Compiler
          ( CompilerId )
 import qualified CabalCompat.Text as Text
+import qualified Distribution.FieldGrammar as F
+import qualified Distribution.Fields as F
+import qualified Distribution.Compat.Newtype as Newtype
+import qualified Distribution.CabalSpecVersion as Spec
+import qualified Data.ByteString.Char8 as B
 import Distribution.Server.Framework.Instances ()
 import Distribution.Server.Framework.MemSize
 
@@ -66,6 +71,7 @@ import Control.Applicative
 import Control.Monad
 
 import Prelude hiding (show, read)
+import qualified Prelude
 
 
 data BuildReport
@@ -133,6 +139,47 @@ data Outcome = NotTried | Failed | Ok deriving (Eq, Ord, Show)
 -- * External format
 -- ------------------------------------------------------------
 
+buildReportFieldGrammar :: (F.FieldGrammar fg, Applicative (fg BuildReport)) => fg BuildReport BuildReport
+buildReportFieldGrammar = BuildReport
+  <$> F.uniqueField (makeFieldName "package") (makeLens package (\ r x -> r { package = x }))
+  <*> F.optionalField (makeFieldName "time") (makeLens time (\ r x -> r { time = x }))
+  <*> F.booleanFieldDef (makeFieldName "doc-builder") (makeLens docBuilder (\ r x -> r { docBuilder = x })) False
+  <*> F.uniqueField (makeFieldName "os") (makeLens os (\ r x -> r { os = x }))
+  <*> F.uniqueField (makeFieldName "arch") (makeLens arch (\ r x -> r { arch = x }))
+  <*> F.uniqueField (makeFieldName "compiler") (makeLens compiler (\ r x -> r { compiler = x }))
+  <*> F.uniqueField (makeFieldName "client") (makeLens client (\ r x -> r { client = x }))
+  <*> F.optionalFieldDefAla (makeFieldName "flags") Flags (makeLens flagAssignment (\ r x -> r { flagAssignment = x })) []
+  <*> F.optionalFieldDefAla (makeFieldName "dependencies") Dependencies (makeLens dependencies (\ r x -> r { dependencies = x })) []
+  <*> F.uniqueField (makeFieldName "install-outcome") (makeLens installOutcome (\ r x -> r { installOutcome = x }))
+  <*> F.optionalFieldDef (makeFieldName "docs-outcome") (makeLens docsOutcome (\ r x -> r { docsOutcome = x })) NotTried
+  <*> F.optionalFieldDef (makeFieldName "tests-outcome") (makeLens testsOutcome (\ r x -> r { testsOutcome = x })) NotTried
+
+newtype Flags = Flags [(FlagName, Bool)]
+
+instance Newtype.Newtype [(FlagName, Bool)] Flags
+
+instance Text.Parsec Flags where
+  parsec = undefined -- TODO
+
+instance Text.Pretty Flags where
+  pretty = undefined -- TODO
+
+newtype Dependencies = Dependencies [PackageIdentifier]
+
+instance Newtype.Newtype [PackageIdentifier] Dependencies
+
+instance Text.Parsec Dependencies where
+  parsec = undefined -- TODO
+
+instance Text.Pretty Dependencies where
+  pretty = undefined -- TODO
+
+makeFieldName :: String -> F.FieldName
+makeFieldName = B.pack
+
+makeLens :: Functor f => (a -> s) -> (a -> t -> b) -> (s -> f t) -> a -> f b
+makeLens getField setField f record = fmap (setField record) (f (getField record))
+
 -- -----------------------------------------------------------------------------
 -- Timestamps
 
@@ -151,13 +198,23 @@ read s = case parse s of
   Right rpt -> rpt
 
 parse :: String -> Either String BuildReport
-parse = undefined -- TODO
+parse input
+  = either (Left . Prelude.show) Right
+  . snd
+  . F.runParseResult
+  $ F.parseFieldGrammar
+    Spec.CabalSpecV1_10
+    (undefined input) -- TODO: how do you make this conversion?
+    buildReportFieldGrammar
 
 -- -----------------------------------------------------------------------------
 -- Pretty-printing
 
+-- TODO: does this work?
 show :: BuildReport -> String
-show = undefined -- TODO
+show
+  = F.showFields (const [])
+  . F.prettyFieldGrammar Spec.CabalSpecV1_10 buildReportFieldGrammar
 
 dispFlag :: (FlagName, Bool) -> Disp.Doc
 dispFlag (fn, True)  =                       Disp.text (unFlagName fn)
