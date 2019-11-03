@@ -19,11 +19,8 @@ module Distribution.Server.Features.BuildReports.BuildReport (
     Outcome(..),
 
     -- * parsing and pretty printing
-    read,
     parse,
-    parseList,
     show,
-    showList,
 
     affixTimestamp,
 
@@ -33,7 +30,7 @@ module Distribution.Server.Features.BuildReports.BuildReport (
 import CabalCompat.Package
          ( PackageIdentifier(..) )
 import Distribution.Types.GenericPackageDescription
-         ( FlagName )
+         ( FlagName, unFlagName )
 import Distribution.System
          ( OS, Arch )
 import Distribution.Compiler
@@ -44,7 +41,7 @@ import Distribution.Server.Framework.MemSize
 
 import qualified CabalCompat.ReadP as Parse
 import qualified Text.PrettyPrint.HughesPJ as Disp
-         ( Doc, text )
+         ( Doc, text, char, (<>) )
 import Text.PrettyPrint.HughesPJ
          ( (<+>), render )
 import Data.Serialize as Serialize
@@ -149,13 +146,12 @@ affixTimestamp report = case time report of
 -- Parsing
 
 read :: String -> BuildReport
-read = undefined -- TODO
+read s = case parse s of
+  Left  err -> error $ "error parsing build report: " ++ err
+  Right rpt -> rpt
 
 parse :: String -> Either String BuildReport
 parse = undefined -- TODO
-
-parseList :: String -> [BuildReport]
-parseList = undefined -- TODO
 
 -- -----------------------------------------------------------------------------
 -- Pretty-printing
@@ -164,7 +160,8 @@ show :: BuildReport -> String
 show = undefined -- TODO
 
 dispFlag :: (FlagName, Bool) -> Disp.Doc
-dispFlag = undefined -- TODO
+dispFlag (fn, True)  =                       Disp.text (unFlagName fn)
+dispFlag (fn, False) = Disp.char '-' Disp.<> Disp.text (unFlagName fn)
 
 instance Text.Pretty InstallOutcome where
   pretty x = case x of
